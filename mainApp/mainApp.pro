@@ -3,7 +3,8 @@
 # Project created by QtCreator 2019-02-23T18:56:49
 #
 #-------------------------------------------------
-
+include(../rep-buildproject.pri)
+include(../rep-opencv.pri)
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -29,12 +30,8 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    ../pluginInterface/plugininterface.h
 
 FORMS += \
         mainwindow.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
