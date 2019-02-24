@@ -24,14 +24,17 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     QVBoxLayout* myVBox = new QVBoxLayout();
+    QVBoxLayout* myVBox1 = new QVBoxLayout();
     if(m_interface){
         myVBox->addWidget(m_interface->showSettingsWidgetCalibration());
+        myVBox1->addWidget(m_interface->showSettingsWidgetFilemodeCalibration());
 //        myVBox->addWidget(m_interface->showSettingsWidgetPAN());
 //        myVBox->addWidget(m_interface->showSettingsWidgetProcessing());             блок для добавления виджетов
 //        myVBox->addWidget(m_interface->showSettingsWidgetSave());
 //        myVBox->addWidget(m_interface->showSettingsWidgetStart());
     }
     ui->layout_calibControl->addLayout(myVBox);
+    ui->layout_filemodeCalib->addLayout(myVBox1);
 
 }
 

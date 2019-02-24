@@ -28,16 +28,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     cad_interface.cpp \
     widgetcalibration.cpp \
-    widgetdepthmap.cpp
+    widgetdepthmap.cpp \
+    widgetfilemodecalibration.cpp
 
 HEADERS += \
     cad_interface.h \
     widgetcalibration.h \
-    widgetdepthmap.h
+    widgetdepthmap.h \
+    widgetfilemodecalibration.h
 DISTFILES += pluginCalibrationAndDepth.json 
 
 FORMS += \
     widgetcalibration.ui \
-    widgetdepthmap.ui
+    widgetdepthmap.ui \
+    widgetfilemodecalibration.ui
 
 

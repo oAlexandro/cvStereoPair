@@ -32,7 +32,7 @@ public:
 
 public slots:
     void stereoCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize,
-                           float squareSize, bool displayCorners = false, bool useCalibrated=true, bool showRectified=true);
+                           float squareSize, bool displayCorners, bool useCalibrated, bool showRectified);
 
 
 private slots:

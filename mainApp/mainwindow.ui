@@ -54,6 +54,11 @@
                  <property name="title">
                   <string>Filemode Calibration</string>
                  </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                  <item>
+                   <layout class="QHBoxLayout" name="layout_filemodeCalib"/>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -127,18 +132,39 @@
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="layout_numberOfImgs">
-                 <item>
+                <layout class="QFormLayout" name="formLayout">
+                 <item row="0" column="0">
                   <widget class="QLabel" name="label_numberOfImgs">
                    <property name="text">
                     <string>Number of pair image or images:</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item row="0" column="1">
                   <widget class="QLabel" name="label_count">
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>15</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>23</height>
+                    </size>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                   </property>
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -156,10 +182,134 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <layout class="QVBoxLayout" name="rightPart">
         <item>
-         <widget class="QGroupBox" name="gb_cameras">
-          <property name="title">
-           <string/>
-          </property>
+         <widget class="QWidget" name="widget_3" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_inputImg">
+               <property name="text">
+                <string>&lt; Input Image &gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QSplitter" name="splitter_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <widget class="QWidget" name="horizontalLayoutWidget_3">
+              <layout class="QHBoxLayout" name="rightTopPart">
+               <item>
+                <widget class="QGroupBox" name="gb_inputCamera1">
+                 <property name="title">
+                  <string>camera1</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="outVideoImage_inputCamera1">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="gb_inputCamera2">
+                 <property name="title">
+                  <string>camera2</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="outVideoImage_inputCamera2">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="horizontalLayoutWidget_4">
+              <layout class="QHBoxLayout" name="rightBottomPart">
+               <item>
+                <widget class="QGroupBox" name="gb_outputCamera1">
+                 <property name="title">
+                  <string>camera1</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <widget class="QLabel" name="outVideoImage_outputCamera1">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="gb_outputCamera2">
+                 <property name="title">
+                  <string>camera2</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_7">
+                  <item>
+                   <widget class="QLabel" name="outVideoImage_outputCamera2">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QLabel" name="label_outputImg">
+               <property name="text">
+                <string>&lt; Output Image &gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>

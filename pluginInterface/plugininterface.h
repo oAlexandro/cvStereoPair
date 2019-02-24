@@ -10,7 +10,7 @@ public:
     virtual const QString& pluginName() const = 0;
     virtual QWidget* showSettingsWidgetCalibration() = 0;
 //    virtual QWidget* showSettingsWidgetPAN() = 0;
-//    virtual QWidget* showSettingsWidgetProcessing() = 0;
+    virtual QWidget* showSettingsWidgetFilemodeCalibration() = 0;
 //    virtual QWidget* showSettingsWidgetSave() = 0;
 //    virtual QWidget* showSettingsWidgetStart() = 0;
 };
