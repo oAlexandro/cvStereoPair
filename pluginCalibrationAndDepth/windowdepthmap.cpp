@@ -2,7 +2,7 @@
 #include "ui_windowdepthmap.h"
 
 WindowDepthMap::WindowDepthMap(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::WindowDepthMap)
 {
     ui->setupUi(this);

@@ -1,13 +1,13 @@
 #ifndef WINDOWDEPTHMAP_H
 #define WINDOWDEPTHMAP_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class WindowDepthMap;
 }
 
-class WindowDepthMap : public QWidget
+class WindowDepthMap : public QDialog
 {
     Q_OBJECT
 

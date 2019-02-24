@@ -12,7 +12,8 @@ public:
     virtual QWidget* showSettingsWidgetCalibrationMode() = 0;
     virtual QWidget* showSettingsWidgetFilemodeCalibration() = 0;
     virtual QWidget* showSettingsWidgetDepthMap() = 0;
-//    virtual QWidget* showSettingsWidgetStart() = 0;
+    virtual QWidget* showSettingsWidgetCheckboardInformation() = 0;
+    virtual QWidget* showSettingsWidgetStatus() = 0;
 };
 
 QT_BEGIN_NAMESPACE

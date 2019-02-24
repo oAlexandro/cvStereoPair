@@ -31,20 +31,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout* vbox_filemodeCalib = new QVBoxLayout();
     QVBoxLayout* vbox_selectCalibMode = new QVBoxLayout();
     QVBoxLayout* vbox_depthMap = new QVBoxLayout();
+    QVBoxLayout* vbox_checkboardInfo = new QVBoxLayout();
+    QVBoxLayout* vbox_status = new QVBoxLayout();
     if(m_interface){
         vbox_calibControl->addWidget(m_interface->showSettingsWidgetCalibration());
         vbox_filemodeCalib->addWidget(m_interface->showSettingsWidgetFilemodeCalibration());
         vbox_selectCalibMode->addWidget(m_interface->showSettingsWidgetCalibrationMode());
         vbox_depthMap->addWidget(m_interface->showSettingsWidgetDepthMap());
-//        myVBox->addWidget(m_interface->showSettingsWidgetProcessing());             блок для добавления виджетов
-//        myVBox->addWidget(m_interface->showSettingsWidgetSave());
+        vbox_checkboardInfo->addWidget(m_interface->showSettingsWidgetCheckboardInformation());             //блок для добавления виджетов
+        vbox_status->addWidget(m_interface->showSettingsWidgetStatus());
 //        myVBox->addWidget(m_interface->showSettingsWidgetStart());
     }
     ui->layout_calibControl->addLayout(vbox_calibControl);
     ui->layout_filemodeCalib->addLayout(vbox_filemodeCalib);
     ui->layout_selectCalibMode->addLayout(vbox_selectCalibMode);
     ui->layout_depthMap->addLayout(vbox_depthMap);
-
+    ui->layout_checkboardInfo->addLayout(vbox_checkboardInfo);
+    ui->layout_status->addLayout(vbox_status);
 }
 
 MainWindow::~MainWindow()

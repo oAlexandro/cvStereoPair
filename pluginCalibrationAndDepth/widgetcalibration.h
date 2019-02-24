@@ -40,7 +40,7 @@ public slots:
     void getSquareSize(float _squareSize);
 
 signals:
-
+    void sendStrToStatus(QString str);
 
 private slots:
     void on_b_Undistortion_clicked();
@@ -56,6 +56,7 @@ private:
     cv::Size m_boardSize;
     float m_squareSize;
     std::vector<std::string> m_imagelist;
+    QString m_str;
 };
 
 #endif // WIDGETCALIBRATION_H
