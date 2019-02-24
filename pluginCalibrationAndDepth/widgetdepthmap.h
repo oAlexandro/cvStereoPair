@@ -30,12 +30,18 @@ public:
     explicit WidgetDepthMap(QWidget *parent = nullptr);
     ~WidgetDepthMap();
 
+
 public slots:
     void depthMapping(cv::Mat img1, cv::Mat img2);
     void saveXYZ(const char* filename, const cv::Mat& mat);
+    void depthMapOptions(int number);
+private slots:
+    void on_pushButton_clicked();
+
 
 private:
     Ui::WidgetDepthMap *ui;
+    int m_number;
 };
 
 #endif // WIDGETDEPTHMAP_H

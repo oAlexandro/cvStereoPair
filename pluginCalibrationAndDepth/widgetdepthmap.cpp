@@ -1,5 +1,7 @@
 #include "widgetdepthmap.h"
 #include "ui_widgetdepthmap.h"
+#include "windowdepthmap.h"
+
 using namespace cv;
 using namespace std;
 
@@ -112,7 +114,6 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     }
 
     numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width/8) + 15) & -16;
-
     bm->setROI1(roi1);
     bm->setROI2(roi2);
     bm->setPreFilterCap(31);
@@ -136,7 +137,7 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     sgbm->setMinDisparity(0);
     sgbm->setNumDisparities(numberOfDisparities);
     sgbm->setUniquenessRatio(10);
-    sgbm->setSpeckleWindowSize(100);
+    sgbm->setSpeckleWindowSize(m_number);
     sgbm->setSpeckleRange(32);
     sgbm->setDisp12MaxDiff(1);
     if(alg==STEREO_HH)
@@ -215,4 +216,14 @@ void WidgetDepthMap::saveXYZ(const char *filename, const Mat &mat)
         }
     }
     fclose(fp);
+}
+void WidgetDepthMap::depthMapOptions(int number)
+{
+     m_number=number;
+}
+void WidgetDepthMap::on_pushButton_clicked()
+{
+    WindowDepthMap windowdepthmap;
+    windowdepthmap.setModal(true);
+    windowdepthmap.exec();
 }
