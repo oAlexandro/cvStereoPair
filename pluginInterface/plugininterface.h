@@ -9,9 +9,9 @@ public:
     virtual ~PluginInterface(){}
     virtual const QString& pluginName() const = 0;
     virtual QWidget* showSettingsWidgetCalibration() = 0;
-//    virtual QWidget* showSettingsWidgetPAN() = 0;
+    virtual QWidget* showSettingsWidgetCalibrationMode() = 0;
     virtual QWidget* showSettingsWidgetFilemodeCalibration() = 0;
-//    virtual QWidget* showSettingsWidgetSave() = 0;
+    virtual QWidget* showSettingsWidgetDepthMap() = 0;
 //    virtual QWidget* showSettingsWidgetStart() = 0;
 };
 

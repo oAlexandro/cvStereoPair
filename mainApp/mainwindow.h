@@ -13,6 +13,7 @@
 #include <QVBoxLayout>
 #include <QThread>
 #include <QMutex>
+
 class PluginInterface;
 
 namespace Ui {
@@ -29,6 +30,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QLabel* m_inputCamera1 = nullptr;
+    QLabel* m_inputCamera2 = nullptr;
+    QLabel* m_outputCamera1 = nullptr;
+    QLabel* m_outputCamera2 = nullptr;
     PluginInterface* m_interface = nullptr;
 };
 

@@ -1,5 +1,6 @@
 #include "widgetcalibration.h"
 #include "ui_widgetcalibration.h"
+#include <QDebug>
 using namespace cv;
 using namespace std;
 
@@ -8,6 +9,9 @@ WidgetCalibration::WidgetCalibration(QWidget *parent) :
     ui(new Ui::WidgetCalibration)
 {
     ui->setupUi(this);
+    connect(ui->b_calibration,&QPushButton::clicked,this,&WidgetCalibration::stereoCalibration);
+    m_boardSize.width = 9;
+    m_boardSize.height = 6;
 }
 
 WidgetCalibration::~WidgetCalibration()
@@ -15,12 +19,11 @@ WidgetCalibration::~WidgetCalibration()
     delete ui;
 }
 
-void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagelist, cv::Size boardSize,
-                                          float squareSize, bool displayCorners, bool useCalibrated, bool showRectified)
+void WidgetCalibration::stereoCalibration()
 {
-    if( imagelist.size() % 2 != 0 )
+    if( m_imagelist.size() % 2 != 0 )
     {
-        cout << "Error: the image list contains odd (non-even) number of elements\n";
+        qDebug() << "Error: the image list contains odd (non-even) number of elements\n";
         return;
     }
     //cout << imagelist.size() << " size of image list" << endl;
@@ -31,7 +34,7 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
     vector<vector<Point3f> > objectPoints;
     Size imageSize;
 
-    int i, j, k, nimages = (int)imagelist.size()/2;
+    int i, j, k, nimages = (int)m_imagelist.size()/2;
     //cout << nimages << " size of nimages" << endl;
     imagePoints[0].resize(nimages);
     imagePoints[1].resize(nimages);
@@ -43,7 +46,7 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
         //cout << "at start k = " << k << endl;
         for( k = 0; k < 2; k++ )
         {
-            const string& filename = imagelist[i*2+k];
+            const string& filename = m_imagelist[i*2+k];
             //cout << filename << " = filename" << endl;
             Mat img = imread(filename, 0);
             //cout << img << "img" << endl;
@@ -66,7 +69,7 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
                     timg = img;
                 else
                     cv::resize(img, timg, Size(), scale, scale, INTER_LINEAR_EXACT);
-                found = findChessboardCorners(timg, boardSize, corners,
+                found = findChessboardCorners(timg, m_boardSize, corners,
                                               CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
                 if( found )
                 {
@@ -80,12 +83,12 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
                 }
 
             }
-            if( displayCorners )
+            if( m_displayCorners )
             {
                 cout << filename << endl;
                 Mat cimg, cimg1;
                 cvtColor(img, cimg, COLOR_GRAY2BGR);
-                drawChessboardCorners(cimg, boardSize, corners, found);
+                drawChessboardCorners(cimg, m_boardSize, corners, found);
                 double sf = 640./MAX(img.rows, img.cols);
                 cv::resize(cimg, cimg1, Size(), sf, sf, INTER_LINEAR_EXACT);
                 imshow("corners", cimg1);
@@ -104,8 +107,8 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
         //cout << "k = " << k << endl;
         if( k == 2 )
         {
-            goodImageList.push_back(imagelist[i*2]);
-            goodImageList.push_back(imagelist[i*2+1]);
+            goodImageList.push_back(m_imagelist[i*2]);
+            goodImageList.push_back(m_imagelist[i*2+1]);
             j++;
             //cout << "j = " << j << endl;
         }
@@ -125,9 +128,9 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
 
     for( i = 0; i < nimages; i++ )
     {
-        for( j = 0; j < boardSize.height; j++ )
-            for( k = 0; k < boardSize.width; k++ )
-                objectPoints[i].push_back(Point3f(k*squareSize, j*squareSize, 0));
+        for( j = 0; j < m_boardSize.height; j++ )
+            for( k = 0; k < m_boardSize.width; k++ )
+                objectPoints[i].push_back(Point3f(k*m_squareSize, j*m_squareSize, 0));
     }
 
     cout << "Running stereo calibration ...\n";
@@ -220,12 +223,12 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
     bool isVerticalStereo = fabs(P2.at<double>(1, 3)) > fabs(P2.at<double>(0, 3));
 
     // COMPUTE AND DISPLAY RECTIFICATION
-    if( !showRectified )
+    if( !m_showRectified )
         return;
 
     Mat rmap[2][2];
     // IF BY CALIBRATED (BOUGUET'S METHOD)
-    if( useCalibrated )
+    if( m_useCalibrated )
     {
         // we already computed everything
         cout << "BOUGUET" << endl;
@@ -293,7 +296,7 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
                 //depthMapping(imgL, imgR);
             }
 
-            if( useCalibrated )
+            if( m_useCalibrated )
             {
                 Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
                           cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
@@ -314,18 +317,41 @@ void WidgetCalibration::stereoCalibration(const std::vector<std::string> &imagel
     }
 }
 
-
-void WidgetCalibration::on_b_displayCorners_clicked()
+void WidgetCalibration::getImagelist(const std::vector<string>& _imagelist)
 {
-
+    m_imagelist = _imagelist;
 }
 
-void WidgetCalibration::on_b_calibration_clicked()
+void WidgetCalibration::getBoardSize(Size _boardSize)
 {
+    m_boardSize = _boardSize;
+}
 
+void WidgetCalibration::getSquareSize(float _squareSize)
+{
+    // доделать
 }
 
 void WidgetCalibration::on_b_Undistortion_clicked()
 {
+    // продумать и доделать
+}
 
+void WidgetCalibration::on_cb_displayCorners_stateChanged(int arg1)
+{
+    if(arg1==2){
+        m_displayCorners = true;
+    } else {
+        m_displayCorners = false;
+    }
+}
+
+void WidgetCalibration::on_rb_Bouguet_clicked()
+{
+    m_useCalibrated = true;
+}
+
+void WidgetCalibration::on_rb_Hartley_clicked()
+{
+    m_useCalibrated = false;
 }

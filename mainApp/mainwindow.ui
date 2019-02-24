@@ -40,6 +40,11 @@
                  <property name="title">
                   <string>Calibration Mode</string>
                  </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_12">
+                  <item>
+                   <layout class="QVBoxLayout" name="layout_selectCalibMode"/>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -47,6 +52,15 @@
                  <property name="title">
                   <string>Realtime calibration</string>
                  </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_10">
+                  <item>
+                   <widget class="QLabel" name="label">
+                    <property name="text">
+                     <string>In development</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -109,7 +123,7 @@
                      </layout>
                     </widget>
                     <widget class="QWidget" name="horizontalLayoutWidget_2">
-                     <layout class="QHBoxLayout" name="horizontalLayout_3">
+                     <layout class="QHBoxLayout" name="layout_statusAndDepthMap">
                       <item>
                        <widget class="QGroupBox" name="gb_status">
                         <property name="title">
@@ -122,6 +136,11 @@
                         <property name="title">
                          <string>Depth Maps</string>
                         </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_13">
+                         <item>
+                          <layout class="QVBoxLayout" name="layout_depthMap"/>
+                         </item>
+                        </layout>
                        </widget>
                       </item>
                      </layout>

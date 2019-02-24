@@ -29,18 +29,24 @@ SOURCES += \
     cad_interface.cpp \
     widgetcalibration.cpp \
     widgetdepthmap.cpp \
-    widgetfilemodecalibration.cpp
+    widgetfilemodecalibration.cpp \
+    widgetcalibrationmode.cpp \
+    windowdepthmap.cpp
 
 HEADERS += \
     cad_interface.h \
     widgetcalibration.h \
     widgetdepthmap.h \
-    widgetfilemodecalibration.h
+    widgetfilemodecalibration.h \
+    widgetcalibrationmode.h \
+    windowdepthmap.h
 DISTFILES += pluginCalibrationAndDepth.json 
 
 FORMS += \
     widgetcalibration.ui \
     widgetdepthmap.ui \
-    widgetfilemodecalibration.ui
+    widgetfilemodecalibration.ui \
+    widgetcalibrationmode.ui \
+    windowdepthmap.ui
 
 
