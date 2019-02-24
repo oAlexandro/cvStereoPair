@@ -217,11 +217,13 @@ void WidgetDepthMap::saveXYZ(const char *filename, const Mat &mat)
     }
     fclose(fp);
 }
+
 void WidgetDepthMap::depthMapOptions(int number)
 {
      m_number=number;
 }
-void WidgetDepthMap::on_pushButton_clicked()
+
+void WidgetDepthMap::on_b_startDepthMap_clicked()
 {
     WindowDepthMap windowdepthmap;
     windowdepthmap.setModal(true);

@@ -23,7 +23,7 @@ void WidgetCalibration::stereoCalibration()
 {
     if( m_imagelist.size() % 2 != 0 )
     {
-        m_str = "-Error: the image list contains odd (non-even) number of elements";
+        m_str = "- Error: the image list contains odd (non-even) number of elements";
         emit sendStrToStatus(m_str);
         return;
     }
@@ -58,7 +58,7 @@ void WidgetCalibration::stereoCalibration()
             else if( img.size() != imageSize )
             {
 
-                m_str = "-The image " + QString::fromStdString(filename) + "has the size different from the first image size. Skipping the pair";
+                m_str = "- The image " + QString::fromStdString(filename) + " has the size different from the first image size. Skipping the pair";
                 emit sendStrToStatus(m_str);
                 break;
             }
@@ -113,13 +113,13 @@ void WidgetCalibration::stereoCalibration()
         }
     }
 
-    m_str = "-" + QString::number(j) + " pairs have been successfully detected.";
+    m_str = "- " + QString::number(j) + " pairs have been successfully detected.";
     emit sendStrToStatus(m_str);
     //cout << j << " pairs have been successfully detected.\n";
     nimages = j;
     if( nimages < 2 )
     {
-        m_str = "-Error: too little pairs to run the calibration";
+        m_str = "- Error: too little pairs to run the calibration";
         emit sendStrToStatus(m_str);
         return;
     }
@@ -135,7 +135,7 @@ void WidgetCalibration::stereoCalibration()
                 objectPoints[i].push_back(Point3f(k*m_squareSize, j*m_squareSize, 0));
     }
 
-    m_str = "-Running stereo calibration ...";
+    m_str = "- Running stereo calibration ...";
     emit sendStrToStatus(m_str);
 
     Mat cameraMatrix[2], distCoeffs[2];
@@ -162,12 +162,12 @@ void WidgetCalibration::stereoCalibration()
     t = getTickCount() - t;
     //printf("Time elapsed for calibrate: %fms\n", t*1000/getTickFrequency());
 
-    m_str = "-Time elapsed for calibrate: %fms" + QString::number(t*1000/getTickFrequency());
+    m_str = "- Time elapsed for calibrate: %fms" + QString::number(t*1000/getTickFrequency());
     emit sendStrToStatus(m_str);
 
     //cout << "done with RMS error=" << rms << endl;
 
-    m_str = "-done with RMS error=" + QString::number(rms);
+    m_str = "- done with RMS error=" + QString::number(rms);
     emit sendStrToStatus(m_str);
 
     // CALIBRATION QUALITY CHECK
@@ -199,7 +199,7 @@ void WidgetCalibration::stereoCalibration()
         npoints += npt;
     }
 
-    m_str = "-average epipolar err = " + QString::number(err/npoints);
+    m_str = "- average epipolar err = " + QString::number(err/npoints);
     emit sendStrToStatus(m_str);
     //cout << "average epipolar err = " <<  err/npoints << endl;
 
@@ -212,7 +212,7 @@ void WidgetCalibration::stereoCalibration()
         fs.release();
     }
     else {
-        m_str = "-Error: can not save the intrinsic parameters";
+        m_str = "- Error: can not save the intrinsic parameters";
         emit sendStrToStatus(m_str);
         //cout << "Error: can not save the intrinsic parameters\n";
     }
@@ -231,7 +231,7 @@ void WidgetCalibration::stereoCalibration()
         fs.release();
     }
     else {
-        m_str = "-Error: can not save the extrinsic parameters";
+        m_str = "- Error: can not save the extrinsic parameters";
         emit sendStrToStatus(m_str);
         //cout << "Error: can not save the extrinsic parameters\n";
     }
@@ -359,11 +359,11 @@ void WidgetCalibration::on_cb_displayCorners_stateChanged(int arg1)
 {
     if(arg1==2){
         m_displayCorners = true;
-        m_str = "-display corners: on";
+        m_str = "- display corners: on";
         emit sendStrToStatus(m_str);
     } else {
         m_displayCorners = false;
-        m_str = "-display corners: off";
+        m_str = "- display corners: off";
         emit sendStrToStatus(m_str);
     }
 }
@@ -371,13 +371,13 @@ void WidgetCalibration::on_cb_displayCorners_stateChanged(int arg1)
 void WidgetCalibration::on_rb_Bouguet_clicked()
 {
     m_useCalibrated = true;
-    m_str = "-Bouget: on";
+    m_str = "- Bouget: on";
     emit sendStrToStatus(m_str);
 }
 
 void WidgetCalibration::on_rb_Hartley_clicked()
 {
     m_useCalibrated = false;
-    m_str = "-Hartley: on";
+    m_str = "- Hartley: on";
     emit sendStrToStatus(m_str);
 }
