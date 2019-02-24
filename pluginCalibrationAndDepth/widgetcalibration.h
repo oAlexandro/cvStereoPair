@@ -31,9 +31,6 @@ public:
     ~WidgetCalibration();
 
 public slots:
-//    void stereoCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize,
-//                           float squareSize, bool displayCorners, bool useCalibrated, bool showRectified);
-    //void stereoCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize, float squareSize);
     void stereoCalibration();
     void getImagelist(const std::vector<std::string>& _imagelist);
     void getBoardSize(cv::Size _boardSize);
@@ -41,6 +38,7 @@ public slots:
 
 signals:
     void sendStrToStatus(QString str);
+    void signalForTestDepthMap(cv::Mat img1, cv::Mat img2);
 
 private slots:
     void on_b_Undistortion_clicked();
@@ -54,7 +52,7 @@ private:
     bool m_useCalibrated = true;
     bool m_showRectified = true;
     cv::Size m_boardSize;
-    float m_squareSize; // поставить на 1.0f для нормальной работы
+    float m_squareSize = 1.0f; // поставить на 1.0f для нормальной работы
     std::vector<std::string> m_imagelist;
     QString m_str;
 };

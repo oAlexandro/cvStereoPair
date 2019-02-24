@@ -38,6 +38,8 @@ public slots:
 private slots:
     void on_b_startDepthMap_clicked();
 
+    void on_b_updateSet_clicked();
+
 private:
     Ui::WidgetDepthMap *ui;
     int m_number;

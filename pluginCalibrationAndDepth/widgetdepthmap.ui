@@ -28,6 +28,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="b_updateSet">
+     <property name="text">
+      <string>update settings</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

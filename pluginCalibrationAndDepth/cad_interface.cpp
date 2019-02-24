@@ -23,7 +23,9 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
     connect(m_WindowDepthMap,&WindowDepthMap::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);//сигнал с слайдера windowdepthmap
     //тут будут connect между виджетами
-    connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist);
+    connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку
+    connect(m_widgetCalibration,&WidgetCalibration::signalForTestDepthMap,m_widgetDepthMap,&WidgetDepthMap::depthMapping); //test
+
 }
 
 CAD_Interface::~CAD_Interface()

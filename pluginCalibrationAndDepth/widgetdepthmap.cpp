@@ -137,7 +137,7 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     sgbm->setMinDisparity(0);
     sgbm->setNumDisparities(numberOfDisparities);
     sgbm->setUniquenessRatio(10);
-    sgbm->setSpeckleWindowSize(m_number);
+    sgbm->setSpeckleWindowSize(100);
     sgbm->setSpeckleRange(32);
     sgbm->setDisp12MaxDiff(1);
     if(alg==STEREO_HH)
@@ -228,4 +228,9 @@ void WidgetDepthMap::on_b_startDepthMap_clicked()
     WindowDepthMap windowdepthmap;
     windowdepthmap.setModal(true);
     windowdepthmap.exec();
+}
+
+void WidgetDepthMap::on_b_updateSet_clicked()
+{
+
 }
