@@ -3,8 +3,8 @@
 # Project created by QtCreator 2019-02-23T18:58:14
 #
 #-------------------------------------------------
-include(../rep-buildproject.pri)
-include(../rep-opencv.pri)
+include(../../rep-buildproject.pri)
+include(../../rep-opencv.pri)
 QT       += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -31,7 +31,9 @@ SOURCES += \
     widgetdepthmap.cpp \
     widgetfilemodecalibration.cpp \
     widgetcalibrationmode.cpp \
-    windowdepthmap.cpp
+    windowdepthmap.cpp \
+    widgetcheckboardinformation.cpp \
+    widgetstatus.cpp
 
 HEADERS += \
     cad_interface.h \
@@ -39,7 +41,9 @@ HEADERS += \
     widgetdepthmap.h \
     widgetfilemodecalibration.h \
     widgetcalibrationmode.h \
-    windowdepthmap.h
+    windowdepthmap.h \
+    widgetcheckboardinformation.h \
+    widgetstatus.h
 DISTFILES += pluginCalibrationAndDepth.json 
 
 FORMS += \
@@ -47,6 +51,8 @@ FORMS += \
     widgetdepthmap.ui \
     widgetfilemodecalibration.ui \
     widgetcalibrationmode.ui \
-    windowdepthmap.ui
+    windowdepthmap.ui \
+    widgetcheckboardinformation.ui \
+    widgetstatus.ui
 
 

@@ -23,10 +23,11 @@ void WidgetCalibration::stereoCalibration()
 {
     if( m_imagelist.size() % 2 != 0 )
     {
-        qDebug() << "Error: the image list contains odd (non-even) number of elements\n";
+        m_str = "-Error: the image list contains odd (non-even) number of elements";
+        emit sendStrToStatus(m_str);
         return;
     }
-    //cout << imagelist.size() << " size of image list" << endl;
+
     const int maxScale = 2;
     // ARRAY AND VECTOR STORAGE:
 
@@ -35,29 +36,30 @@ void WidgetCalibration::stereoCalibration()
     Size imageSize;
 
     int i, j, k, nimages = (int)m_imagelist.size()/2;
-    //cout << nimages << " size of nimages" << endl;
+
     imagePoints[0].resize(nimages);
     imagePoints[1].resize(nimages);
     vector<string> goodImageList;
 
     for( i = j = 0; i < nimages; i++ )
     {
-        //cout << "start" << endl;
-        //cout << "at start k = " << k << endl;
+
         for( k = 0; k < 2; k++ )
         {
             const string& filename = m_imagelist[i*2+k];
-            //cout << filename << " = filename" << endl;
+
             Mat img = imread(filename, 0);
-            //cout << img << "img" << endl;
+
             if(img.empty())
                 break;
-            //cout << "found e" << endl;
+
             if( imageSize == Size() )
                 imageSize = img.size();
             else if( img.size() != imageSize )
             {
-                cout << "The image " << filename << " has the size different from the first image size. Skipping the pair\n";
+
+                m_str = "-The image " + QString::fromStdString(filename) + "has the size different from the first image size. Skipping the pair";
+                emit sendStrToStatus(m_str);
                 break;
             }
             bool found = false;
@@ -73,7 +75,6 @@ void WidgetCalibration::stereoCalibration()
                                               CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
                 if( found )
                 {
-                    //cout << found << "found e" << endl;
                     if( scale > 1 )
                     {
                         Mat cornersMat(corners);
@@ -85,7 +86,7 @@ void WidgetCalibration::stereoCalibration()
             }
             if( m_displayCorners )
             {
-                cout << filename << endl;
+                //cout << filename << endl;    ранее было использовано, пока не удалять
                 Mat cimg, cimg1;
                 cvtColor(img, cimg, COLOR_GRAY2BGR);
                 drawChessboardCorners(cimg, m_boardSize, corners, found);
@@ -104,21 +105,22 @@ void WidgetCalibration::stereoCalibration()
                          TermCriteria(TermCriteria::COUNT+TermCriteria::EPS,
                                       30, 0.01));
         }
-        //cout << "k = " << k << endl;
         if( k == 2 )
         {
             goodImageList.push_back(m_imagelist[i*2]);
             goodImageList.push_back(m_imagelist[i*2+1]);
             j++;
-            //cout << "j = " << j << endl;
         }
     }
 
-    cout << j << " pairs have been successfully detected.\n";
+    m_str = "-" + QString::number(j) + " pairs have been successfully detected.";
+    emit sendStrToStatus(m_str);
+    //cout << j << " pairs have been successfully detected.\n";
     nimages = j;
     if( nimages < 2 )
     {
-        cout << "Error: too little pairs to run the calibration\n";
+        m_str = "-Error: too little pairs to run the calibration";
+        emit sendStrToStatus(m_str);
         return;
     }
 
@@ -133,7 +135,8 @@ void WidgetCalibration::stereoCalibration()
                 objectPoints[i].push_back(Point3f(k*m_squareSize, j*m_squareSize, 0));
     }
 
-    cout << "Running stereo calibration ...\n";
+    m_str = "-Running stereo calibration ...";
+    emit sendStrToStatus(m_str);
 
     Mat cameraMatrix[2], distCoeffs[2];
 
@@ -157,8 +160,15 @@ void WidgetCalibration::stereoCalibration()
             TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
 
     t = getTickCount() - t;
-    printf("Time elapsed for calibrate: %fms\n", t*1000/getTickFrequency());
-    cout << "done with RMS error=" << rms << endl;
+    //printf("Time elapsed for calibrate: %fms\n", t*1000/getTickFrequency());
+
+    m_str = "-Time elapsed for calibrate: %fms" + QString::number(t*1000/getTickFrequency());
+    emit sendStrToStatus(m_str);
+
+    //cout << "done with RMS error=" << rms << endl;
+
+    m_str = "-done with RMS error=" + QString::number(rms);
+    emit sendStrToStatus(m_str);
 
     // CALIBRATION QUALITY CHECK
     // because the output fundamental matrix implicitly
@@ -188,7 +198,10 @@ void WidgetCalibration::stereoCalibration()
         }
         npoints += npt;
     }
-    cout << "average epipolar err = " <<  err/npoints << endl;
+
+    m_str = "-average epipolar err = " + QString::number(err/npoints);
+    emit sendStrToStatus(m_str);
+    //cout << "average epipolar err = " <<  err/npoints << endl;
 
     // save intrinsic parameters
     FileStorage fs("intrinsics.yml", FileStorage::WRITE);
@@ -198,9 +211,11 @@ void WidgetCalibration::stereoCalibration()
               "M2" << cameraMatrix[1] << "D2" << distCoeffs[1];
         fs.release();
     }
-    else
-        cout << "Error: can not save the intrinsic parameters\n";
-
+    else {
+        m_str = "-Error: can not save the intrinsic parameters";
+        emit sendStrToStatus(m_str);
+        //cout << "Error: can not save the intrinsic parameters\n";
+    }
     Mat R1, R2, P1, P2, Q;
     Rect validRoi[2];
 
@@ -215,8 +230,11 @@ void WidgetCalibration::stereoCalibration()
         fs << "R" << R << "T" << T << "R1" << R1 << "R2" << R2 << "P1" << P1 << "P2" << P2 << "Q" << Q;
         fs.release();
     }
-    else
-        cout << "Error: can not save the extrinsic parameters\n";
+    else {
+        m_str = "-Error: can not save the extrinsic parameters";
+        emit sendStrToStatus(m_str);
+        //cout << "Error: can not save the extrinsic parameters\n";
+    }
 
     // OpenCV can handle left-right
     // or up-down camera arrangements
@@ -231,7 +249,7 @@ void WidgetCalibration::stereoCalibration()
     if( m_useCalibrated )
     {
         // we already computed everything
-        cout << "BOUGUET" << endl;
+        //cout << "BOUGUET" << endl;
     }
     // OR ELSE HARTLEY'S METHOD
     else
@@ -239,7 +257,7 @@ void WidgetCalibration::stereoCalibration()
         // compute the rectification transformation directly
         // from the fundamental matrix
     {
-        cout << "HARTLEY" << endl;
+        //cout << "HARTLEY" << endl;
         vector<Point2f> allimgpt[2];
         for( k = 0; k < 2; k++ )
         {
@@ -341,17 +359,25 @@ void WidgetCalibration::on_cb_displayCorners_stateChanged(int arg1)
 {
     if(arg1==2){
         m_displayCorners = true;
+        m_str = "-display corners: on";
+        emit sendStrToStatus(m_str);
     } else {
         m_displayCorners = false;
+        m_str = "-display corners: off";
+        emit sendStrToStatus(m_str);
     }
 }
 
 void WidgetCalibration::on_rb_Bouguet_clicked()
 {
     m_useCalibrated = true;
+    m_str = "-Bouget: on";
+    emit sendStrToStatus(m_str);
 }
 
 void WidgetCalibration::on_rb_Hartley_clicked()
 {
     m_useCalibrated = false;
+    m_str = "-Hartley: on";
+    emit sendStrToStatus(m_str);
 }
