@@ -13,6 +13,7 @@
 #include <QVBoxLayout>
 #include <QThread>
 #include <QMutex>
+#include <QGroupBox>
 
 class PluginInterface;
 
