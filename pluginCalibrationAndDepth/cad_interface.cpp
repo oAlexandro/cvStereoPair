@@ -3,8 +3,10 @@
 #include "widgetdepthmap.h"
 #include "widgetfilemodecalibration.h"
 #include "widgetcalibrationmode.h"
+#include "windowdepthmap.h"
 #include "widgetcheckboardinformation.h"
 #include "widgetstatus.h"
+
 QString CAD_Interface::m_pluginName = "pluginCalibrationAndDepth";
 
 CAD_Interface::CAD_Interface(QObject *parent) :
@@ -14,11 +16,14 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_widgetDepthMap = new WidgetDepthMap();
     m_widgetFilemodeCalibration = new WidgetFilemodeCalibration();
     m_widgetCalibrationMode = new WidgetCalibrationMode;
+    m_WindowDepthMap=new WindowDepthMap();
     m_widgetCheckboardInformation = new WidgetCheckboardInformation();
     m_widgetStatus = new WidgetStatus();
 
+
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
     //тут будут connect между виджетами
+    connect(m_WindowDepthMap,&WindowDepthMap::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);//сигнал с слайдера windowdepthmap
 }
 
 CAD_Interface::~CAD_Interface()
@@ -27,6 +32,7 @@ CAD_Interface::~CAD_Interface()
     delete m_widgetDepthMap;
     delete m_widgetFilemodeCalibration;
     delete m_widgetCalibrationMode;
+    delete m_WindowDepthMap;
     delete m_widgetCheckboardInformation;
     delete m_widgetStatus;
 }

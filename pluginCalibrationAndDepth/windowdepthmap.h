@@ -14,6 +14,10 @@ class WindowDepthMap : public QDialog
 public:
     explicit WindowDepthMap(QWidget *parent = nullptr);
     ~WindowDepthMap();
+signals:
+   void Number(int n);
+private slots:
+    void on_horizontalSlider_actionTriggered(int action);
 
 private:
     Ui::WindowDepthMap *ui;
