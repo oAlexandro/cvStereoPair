@@ -78,7 +78,7 @@ void WidgetFilemodeCalibration::on_b_selectDirectory_released()
     }
     qDebug() << "stringlist   " << m_filesSorted;
 
-    emit emitVectorString(m_pairs);
+    emit sendVectorString(m_pairs);
 }
 
 
@@ -131,6 +131,6 @@ void WidgetFilemodeCalibration::on_b_selectFiles_released()
    }
    qDebug() << "stringlist   " << m_filesSorted;
 
-   emit emitVectorString(m_pairs);
+   emit sendVectorString(m_pairs);
 }
 

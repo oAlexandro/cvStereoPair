@@ -17,7 +17,7 @@ public:
     ~WidgetFilemodeCalibration();
 
 signals:
-    void emitVectorString(std::vector<std::string>);
+    void sendVectorString(std::vector<std::string>);
 
 private slots:
     void on_b_selectDirectory_released();

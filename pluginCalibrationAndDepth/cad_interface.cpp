@@ -20,10 +20,10 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_widgetCheckboardInformation = new WidgetCheckboardInformation();
     m_widgetStatus = new WidgetStatus();
 
-
-    connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
-    //тут будут connect между виджетами
+    connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
     connect(m_WindowDepthMap,&WindowDepthMap::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);//сигнал с слайдера windowdepthmap
+    //тут будут connect между виджетами
+    connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist);
 }
 
 CAD_Interface::~CAD_Interface()

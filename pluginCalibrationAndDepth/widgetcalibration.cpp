@@ -199,7 +199,8 @@ void WidgetCalibration::stereoCalibration()
         npoints += npt;
     }
 
-    m_str = "- average epipolar err = " + QString::number(err/npoints);
+    double temp_number = err/npoints;
+    m_str = "- average epipolar err = " + QString::number(temp_number);
     emit sendStrToStatus(m_str);
     //cout << "average epipolar err = " <<  err/npoints << endl;
 
