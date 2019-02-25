@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout* vbox_leftInput = new QVBoxLayout();
     QVBoxLayout* vbox_leftOutput = new QVBoxLayout();
     QVBoxLayout* vbox_rightOutput = new QVBoxLayout();
+    QVBoxLayout* vbox_rightInput = new QVBoxLayout();
 
     if(m_interface){
         vbox_calibControl->addWidget(m_interface->showSettingsWidgetCalibration());
@@ -47,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
         vbox_leftInput->addWidget(m_interface->showLeftInputImage());
         vbox_leftOutput->addWidget(m_interface->showLeftOutputImage());
         vbox_rightOutput->addWidget(m_interface->showRightOutputImage());
+        vbox_rightInput->addWidget(m_interface->showRightInputImage());
 //        myVBox->addWidget(m_interface->showSettingsWidgetStart());
     }
     ui->layout_calibControl->addLayout(vbox_calibControl);
@@ -58,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->layout_leftInput->addLayout(vbox_leftInput);
     ui->layout_leftOutput->addLayout(vbox_leftOutput);
     ui->layout_rightOutput->addLayout(vbox_rightOutput);
+    ui->layout_rightInput->addLayout(vbox_rightInput);
 
 }
 
