@@ -309,13 +309,13 @@ void WidgetCalibration::stereoCalibration()
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
             if(k==0){
                 imgL = canvasPart;
-                imshow("imgL", imgL);
+                //imshow("imgL", imgL);
                 emit signalForOutput(imgL);
             } else {
                 imgR = canvasPart;
-                imshow("imgR", imgR);
+                //imshow("imgR", imgR);
 
-                emit signalForTestDepthMap(imgL, imgR);
+                //emit signalForTestDepthMap(imgL, imgR);
 
                 emit signalForOutputRight(imgR);
                 //emit signalForTestDepthMap(imgL, imgR);
