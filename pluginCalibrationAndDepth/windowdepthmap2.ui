@@ -25,9 +25,6 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6"/>
-      </item>
-      <item>
        <widget class="QSplitter" name="splitter_4">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -39,7 +36,7 @@
             <property name="minimumSize">
              <size>
               <width>698</width>
-              <height>224</height>
+              <height>500</height>
              </size>
             </property>
             <property name="title">
@@ -57,7 +54,7 @@
                <property name="minimumSize">
                 <size>
                  <width>678</width>
-                 <height>191</height>
+                 <height>500</height>
                 </size>
                </property>
                <property name="text">

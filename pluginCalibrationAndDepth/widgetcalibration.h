@@ -57,7 +57,7 @@ private:
     bool m_useCalibrated = true;
     bool m_showRectified = true;
     cv::Size m_boardSize;
-    float m_squareSize = 1.0f; // поставить на 1.0f для нормальной работы
+    float m_squareSize; // поставить на 1.0f для нормальной работы
     std::vector<std::string> m_imagelist;
     QString m_str;
 };

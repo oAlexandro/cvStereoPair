@@ -40,7 +40,7 @@ void windowdepthmap2::OpenPicture(cv::Mat _image)
     if (!m_testImage.isNull()){
         m_outputImageLable->setAlignment(Qt::AlignCenter);
         m_outputImageLable->setPixmap(QPixmap::fromImage(m_testImage).scaled(m_outputImageLable->size(),
-                                                                             Qt::KeepAspectRatio, Qt::FastTransformation));
+                                                                             Qt::IgnoreAspectRatio, Qt::FastTransformation));
     }
 }
 
