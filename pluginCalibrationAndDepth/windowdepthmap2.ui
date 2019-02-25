@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WindowDepthMap</class>
- <widget class="QDialog" name="WindowDepthMap">
+ <class>windowdepthmap2</class>
+ <widget class="QWidget" name="windowdepthmap2">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>759</width>
-    <height>700</height>
+    <width>736</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Form</string>
   </property>
   <widget class="QWidget" name="widget_3" native="true">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>10</y>
-     <width>402</width>
-     <height>687</height>
+     <x>0</x>
+     <y>0</y>
+     <width>741</width>
+     <height>682</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,7 +47,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLabel" name="outVideoImage_inputCamera1">
+            <widget class="QLabel" name="outVideoImage_DepthMap">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -68,39 +68,72 @@
        <layout class="QHBoxLayout" name="rightBottomPart">
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="2">
-           <widget class="QSpinBox" name="spinBox_2"/>
-          </item>
-          <item row="1" column="1">
+          <item row="2" column="1">
            <widget class="QSlider" name="horizontalSlider_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
            <widget class="QSlider" name="horizontalSlider">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
+          <item row="1" column="2">
            <widget class="QSpinBox" name="spinBox"/>
           </item>
-          <item row="1" column="0">
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="b_setImage">
+            <property name="text">
+             <string>SaveImage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>TextLabel</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
+          <item row="2" column="2">
+           <widget class="QSpinBox" name="spinBox_2"/>
           </item>
          </layout>
         </item>
