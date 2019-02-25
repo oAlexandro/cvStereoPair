@@ -23,9 +23,11 @@ public:
 
 signals:
    void Number(int n);
+
 public slots:
    void OpenWindow();
    void OpenPicture(cv::Mat a);
+
 private slots:
    void on_horizontalSlider_actionTriggered(int action);
 

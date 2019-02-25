@@ -99,8 +99,9 @@ void WidgetCalibration::stereoCalibration()
                 if( c == 27 || c == 'q' || c == 'Q' ) //Allow ESC to quit
                     exit(-1);
             }
-            else
-                putchar('.');
+            else {
+                //putchar('.');
+            }
             if( !found )
                 break;
             cornerSubPix(img, corners, Size(11,11), Size(-1,-1),

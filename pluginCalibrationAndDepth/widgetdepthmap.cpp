@@ -18,9 +18,8 @@ WidgetDepthMap::~WidgetDepthMap()
 }
 
 
-void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
+void WidgetDepthMap::depthMapping(cv::Mat& img1, cv::Mat& img2)
 {
-
     std::string img1_filename = "";
     std::string img2_filename = "";
     std::string intrinsic_filename = "";

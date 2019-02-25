@@ -35,7 +35,7 @@ signals:
     void sendImageToWindow(cv::Mat resDepthMap);
 
 public slots:
-    void depthMapping(cv::Mat img1, cv::Mat img2);
+    void depthMapping(cv::Mat& img1, cv::Mat& img2);
     void saveXYZ(const char* filename, const cv::Mat& mat);
     void depthMapOptions(int number);
 

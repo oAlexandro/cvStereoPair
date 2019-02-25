@@ -29,7 +29,6 @@ void windowdepthmap2::OpenWindow()
 
 void windowdepthmap2::OpenPicture(cv::Mat _image)
 {
-
     QImage m_testImage;
     if(_image.channels()== 3){
         m_testImage = QImage(_image.data,_image.cols,_image.rows,static_cast<int>(_image.step),QImage::Format_RGB888);
