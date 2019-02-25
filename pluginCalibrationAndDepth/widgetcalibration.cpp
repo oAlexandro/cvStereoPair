@@ -312,7 +312,7 @@ void WidgetCalibration::stereoCalibration()
             } else {
                 imgR = canvasPart;
                 imshow("imgR", imgR);
-                //emit signalForTestDepthMap(imgL, imgR);
+                emit signalForTestDepthMap(imgL, imgR);
             }
 
             if( m_useCalibrated )

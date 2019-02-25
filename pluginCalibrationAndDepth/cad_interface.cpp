@@ -3,9 +3,9 @@
 #include "widgetdepthmap.h"
 #include "widgetfilemodecalibration.h"
 #include "widgetcalibrationmode.h"
-#include "windowdepthmap.h"
 #include "widgetcheckboardinformation.h"
 #include "widgetstatus.h"
+#include "windowdepthmap2.h"
 
 QString CAD_Interface::m_pluginName = "pluginCalibrationAndDepth";
 
@@ -16,16 +16,17 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_widgetDepthMap = new WidgetDepthMap();
     m_widgetFilemodeCalibration = new WidgetFilemodeCalibration();
     m_widgetCalibrationMode = new WidgetCalibrationMode;
-    m_WindowDepthMap=new WindowDepthMap();
     m_widgetCheckboardInformation = new WidgetCheckboardInformation();
     m_widgetStatus = new WidgetStatus();
+    m_WindowDepthMap=new windowdepthmap2();
 
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
-    connect(m_WindowDepthMap,&WindowDepthMap::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);//сигнал с слайдера windowdepthmap
+   //сигнал с слайдера windowdepthmap
     //тут будут connect между виджетами
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку
     connect(m_widgetCalibration,&WidgetCalibration::signalForTestDepthMap,m_widgetDepthMap,&WidgetDepthMap::depthMapping); //test
-
+    connect(m_widgetDepthMap,&WidgetDepthMap::sendStartSignal,m_WindowDepthMap,&windowdepthmap2::OpenWindow);
+    connect(m_widgetDepthMap,&WidgetDepthMap::picture,m_WindowDepthMap,&windowdepthmap2::OpenPicture);
 }
 
 CAD_Interface::~CAD_Interface()
