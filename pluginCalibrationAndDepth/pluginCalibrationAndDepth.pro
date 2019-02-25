@@ -36,7 +36,8 @@ SOURCES += \
     widgetstatus.cpp \
     widgetleftinput.cpp \
     widgetleftoutput.cpp \
-    widgetrightoutput.cpp
+    widgetrightoutput.cpp \
+    widgetrightinput.cpp
 
 HEADERS += \
     cad_interface.h \
@@ -49,7 +50,8 @@ HEADERS += \
     widgetstatus.h \
     widgetleftinput.h \
     widgetleftoutput.h \
-    widgetrightoutput.h
+    widgetrightoutput.h \
+    widgetrightinput.h
 DISTFILES += pluginCalibrationAndDepth.json 
 
 FORMS += \
@@ -62,6 +64,7 @@ FORMS += \
     widgetstatus.ui \
     widgetleftinput.ui \
     widgetleftoutput.ui \
-    widgetrightoutput.ui
+    widgetrightoutput.ui \
+    widgetrightinput.ui
 
 

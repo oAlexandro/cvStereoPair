@@ -9,6 +9,7 @@
 #include "widgetleftinput.h"
 #include "widgetleftoutput.h"
 #include "widgetrightoutput.h"
+#include "widgetrightinput.h"
 
 
 QString CAD_Interface::m_pluginName = "pluginCalibrationAndDepth";
@@ -26,6 +27,7 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_widgetLeftInput = new WidgetLeftInput();
     m_widgetLeftOutput = new WidgetLeftOutput();
     m_widgetRightOutput = new WidgetRightOutput();
+    m_widgetRightInput = new WidgetRightInput();
 
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
     connect(m_WindowDepthMap,&WindowDepthMap::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);//сигнал с слайдера windowdepthmap
@@ -35,6 +37,7 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     connect(m_widgetCalibration,&WidgetCalibration::signalForInputLeft,m_widgetLeftInput,&WidgetLeftInput::showImage);
     connect(m_widgetCalibration,&WidgetCalibration::signalForOutput,m_widgetLeftOutput,&WidgetLeftOutput::showImage);
     connect(m_widgetCalibration,&WidgetCalibration::signalForOutputRight,m_widgetRightOutput,&WidgetRightOutput::showImage);
+    connect(m_widgetCalibration,&WidgetCalibration::signalForInputRight,m_widgetRightInput,&WidgetRightInput::showImage);
 }
 
 CAD_Interface::~CAD_Interface()
@@ -49,6 +52,7 @@ CAD_Interface::~CAD_Interface()
     delete m_widgetLeftInput;
     delete m_widgetLeftOutput;
     delete m_widgetRightOutput;
+    delete m_widgetRightInput;
 }
 
 const QString &CAD_Interface::pluginName() const
@@ -99,4 +103,9 @@ QWidget *CAD_Interface::showLeftOutputImage()
 QWidget *CAD_Interface::showRightOutputImage()
 {
     return m_widgetRightOutput;
+}
+
+QWidget *CAD_Interface::showRightInputImage()
+{
+    return m_widgetRightInput;
 }

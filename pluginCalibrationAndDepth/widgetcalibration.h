@@ -42,6 +42,7 @@ signals:
     void signalForOutput(cv::Mat img1);
     void signalForOutputRight(cv::Mat img1);
     void signalForInputLeft(cv::Mat img1);
+    void signalForInputRight(cv::Mat img1);
 
 
 private slots:

@@ -50,6 +50,7 @@ void WidgetCalibration::stereoCalibration()
 
             Mat img = imread(filename, 0);
             emit signalForInputLeft(img);
+            emit signalForInputRight(img);
 
             if(img.empty())
                 break;
