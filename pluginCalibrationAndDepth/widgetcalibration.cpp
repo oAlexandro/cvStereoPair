@@ -10,7 +10,7 @@ WidgetCalibration::WidgetCalibration(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->b_calibration,&QPushButton::clicked,this,&WidgetCalibration::stereoCalibration);
-    qDebug("hello");
+
     m_boardSize.width = 9;
     m_boardSize.height = 6;
 }
@@ -51,9 +51,6 @@ void WidgetCalibration::stereoCalibration()
 
             Mat img = imread(filename, 0);
 
-            //emit signalForInputLeft(img);
-            //emit signalForInputLeft(img);
-            //emit signalForInputRight(img);
 
             if(img.empty())
                 break;
@@ -324,7 +321,8 @@ void WidgetCalibration::stereoCalibration()
                 imgR = canvasPart;
                 emit signalForInputRight(img_input);
                 emit signalForOutputRight(imgR);
-                //emit signalForTestDepthMap(imgL, imgR);
+                emit signalForTestDepthMap(imgL, imgR);
+
 
             }
 
