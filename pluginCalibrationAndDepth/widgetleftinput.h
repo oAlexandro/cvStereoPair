@@ -23,7 +23,6 @@ public:
 
 private:
     Ui::WidgetLeftInput *ui;
-    QPixmap m_leftPixmap;
     cv::Mat m_img1;
 
 public slots:
