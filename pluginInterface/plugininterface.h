@@ -17,6 +17,7 @@ public:
     virtual QWidget* showLeftInputImage() = 0;
     virtual QWidget* showLeftOutputImage() = 0;
     virtual QWidget* showRightOutputImage() = 0;
+    virtual QWidget* showRightInputImage() = 0;
 };
 
 QT_BEGIN_NAMESPACE

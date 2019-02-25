@@ -15,6 +15,7 @@ class WidgetStatus;
 class WidgetLeftInput;
 class WidgetLeftOutput;
 class WidgetRightOutput;
+class WidgetRightInput;
 
 class CAD_Interface : public QObject, PluginInterface
 {
@@ -35,7 +36,7 @@ public:
     virtual QWidget* showLeftInputImage();
     virtual QWidget* showLeftOutputImage();
     virtual QWidget* showRightOutputImage();
-   // virtual QWidget* showRightInputImage();
+    virtual QWidget* showRightInputImage();
 
 
 
@@ -54,6 +55,7 @@ private:
     WidgetLeftInput* m_widgetLeftInput = nullptr;
     WidgetLeftOutput* m_widgetLeftOutput = nullptr;
     WidgetRightOutput* m_widgetRightOutput = nullptr;
+    WidgetRightInput* m_widgetRightInput = nullptr;
     static QString m_pluginName;
 };
 
