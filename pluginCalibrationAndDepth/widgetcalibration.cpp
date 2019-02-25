@@ -49,6 +49,7 @@ void WidgetCalibration::stereoCalibration()
             const string& filename = m_imagelist[i*2+k];
 
             Mat img = imread(filename, 0);
+            emit signalForInputLeft(img);
 
             if(img.empty())
                 break;
@@ -309,10 +310,16 @@ void WidgetCalibration::stereoCalibration()
             if(k==0){
                 imgL = canvasPart;
                 imshow("imgL", imgL);
+                emit signalForOutput(imgL);
             } else {
                 imgR = canvasPart;
                 imshow("imgR", imgR);
+
                 emit signalForTestDepthMap(imgL, imgR);
+
+                emit signalForOutputRight(imgR);
+                //emit signalForTestDepthMap(imgL, imgR);
+
             }
 
             if( m_useCalibrated )

@@ -33,7 +33,10 @@ SOURCES += \
     widgetcalibrationmode.cpp \
     windowdepthmap.cpp \
     widgetcheckboardinformation.cpp \
-    widgetstatus.cpp
+    widgetstatus.cpp \
+    widgetleftinput.cpp \
+    widgetleftoutput.cpp \
+    widgetrightoutput.cpp
 
 HEADERS += \
     cad_interface.h \
@@ -43,7 +46,10 @@ HEADERS += \
     widgetcalibrationmode.h \
     windowdepthmap.h \
     widgetcheckboardinformation.h \
-    widgetstatus.h
+    widgetstatus.h \
+    widgetleftinput.h \
+    widgetleftoutput.h \
+    widgetrightoutput.h
 DISTFILES += pluginCalibrationAndDepth.json 
 
 FORMS += \
@@ -53,6 +59,9 @@ FORMS += \
     widgetcalibrationmode.ui \
     windowdepthmap.ui \
     widgetcheckboardinformation.ui \
-    widgetstatus.ui
+    widgetstatus.ui \
+    widgetleftinput.ui \
+    widgetleftoutput.ui \
+    widgetrightoutput.ui
 
 

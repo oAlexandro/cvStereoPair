@@ -14,6 +14,9 @@ public:
     virtual QWidget* showSettingsWidgetDepthMap() = 0;
     virtual QWidget* showSettingsWidgetCheckboardInformation() = 0;
     virtual QWidget* showSettingsWidgetStatus() = 0;
+    virtual QWidget* showLeftInputImage() = 0;
+    virtual QWidget* showLeftOutputImage() = 0;
+    virtual QWidget* showRightOutputImage() = 0;
 };
 
 QT_BEGIN_NAMESPACE
