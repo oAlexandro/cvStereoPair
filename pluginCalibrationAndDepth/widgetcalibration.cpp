@@ -50,12 +50,10 @@ void WidgetCalibration::stereoCalibration()
             const string& filename = m_imagelist[i*2+k];
 
             Mat img = imread(filename, 0);
-<<<<<<< HEAD
+
             //emit signalForInputLeft(img);
-=======
-            emit signalForInputLeft(img);
-            emit signalForInputRight(img);
->>>>>>> 86f9ef3b815804d59cfc18c3a3ffe311366ed8df
+            //emit signalForInputLeft(img);
+            //emit signalForInputRight(img);
 
             if(img.empty())
                 break;
@@ -311,6 +309,8 @@ void WidgetCalibration::stereoCalibration()
             const string& filename = m_imagelist[i*2+k];
 
             Mat img_input = imread(filename, 0);
+
+
             Mat img = imread(goodImageList[i*2+k], 0), rimg, cimg;
             remap(img, rimg, rmap[k][0], rmap[k][1], INTER_LINEAR);
             cvtColor(rimg, cimg, COLOR_GRAY2BGR);
@@ -318,15 +318,11 @@ void WidgetCalibration::stereoCalibration()
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
             if(k==0){
                 imgL = canvasPart;
-                //imshow("imgL", imgL);
                 emit signalForInputLeft(img_input);
                 emit signalForOutput(imgL);
             } else {
                 imgR = canvasPart;
-                //imshow("imgR", imgR);
-
-                //emit signalForTestDepthMap(imgL, imgR);
-
+                emit signalForInputRight(img_input);
                 emit signalForOutputRight(imgR);
                 //emit signalForTestDepthMap(imgL, imgR);
 
