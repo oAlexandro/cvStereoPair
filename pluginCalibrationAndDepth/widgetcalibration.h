@@ -39,6 +39,11 @@ public slots:
 signals:
     void sendStrToStatus(QString str);
     void signalForTestDepthMap(cv::Mat img1, cv::Mat img2);
+    void signalForOutput(cv::Mat img1);
+    void signalForOutputRight(cv::Mat img1);
+    void signalForInputLeft(cv::Mat img1);
+    void signalForInputRight(cv::Mat img1);
+
 
 private slots:
     void on_b_Undistortion_clicked();

@@ -10,6 +10,7 @@ WidgetCalibration::WidgetCalibration(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->b_calibration,&QPushButton::clicked,this,&WidgetCalibration::stereoCalibration);
+    qDebug("hello");
     m_boardSize.width = 9;
     m_boardSize.height = 6;
 }
@@ -162,7 +163,7 @@ void WidgetCalibration::stereoCalibration()
     t = getTickCount() - t;
     //printf("Time elapsed for calibrate: %fms\n", t*1000/getTickFrequency());
 
-    m_str = "- Time elapsed for calibrate: %fms" + QString::number(t*1000/getTickFrequency());
+    m_str = "- Time elapsed for calibrate: " + QString::number(t*1000/getTickFrequency()) + "ms";
     emit sendStrToStatus(m_str);
 
     //cout << "done with RMS error=" << rms << endl;
@@ -301,6 +302,9 @@ void WidgetCalibration::stereoCalibration()
     {
         for( k = 0; k < 2; k++ )
         {
+            const string& filename = m_imagelist[i*2+k];
+
+            Mat img_input = imread(filename, 0);
             Mat img = imread(goodImageList[i*2+k], 0), rimg, cimg;
             remap(img, rimg, rmap[k][0], rmap[k][1], INTER_LINEAR);
             cvtColor(rimg, cimg, COLOR_GRAY2BGR);
@@ -308,11 +312,23 @@ void WidgetCalibration::stereoCalibration()
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
             if(k==0){
                 imgL = canvasPart;
-                imshow("imgL", imgL);
+                //imshow("imgL", imgL);
+                emit signalForInputLeft(img_input);
+                emit signalForOutput(imgL);
             } else {
                 imgR = canvasPart;
+
                 imshow("imgR", imgR);
                 emit signalForTestDepthMap(imgL, imgR);
+
+                //imshow("imgR", imgR);
+
+                //emit signalForTestDepthMap(imgL, imgR);
+
+                emit signalForOutputRight(imgR);
+                //emit signalForTestDepthMap(imgL, imgR);
+
+
             }
 
             if( m_useCalibrated )

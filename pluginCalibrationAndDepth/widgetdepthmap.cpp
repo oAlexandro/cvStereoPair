@@ -159,7 +159,7 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     else if( alg == STEREO_SGBM || alg == STEREO_HH || alg == STEREO_3WAY )
         sgbm->compute(img1, img2, disp);
     t = getTickCount() - t;
-    printf("Time elapsed: %fms\n", t*1000/getTickFrequency());
+    printf("Time elapsed: ", t*1000/getTickFrequency());
 
 
 
