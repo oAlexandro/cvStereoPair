@@ -1,6 +1,6 @@
 #include "widgetrightoutput.h"
 #include "ui_widgetrightoutput.h"
-
+#include <QDebug>
 WidgetRightOutput::WidgetRightOutput(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetRightOutput)

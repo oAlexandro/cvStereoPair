@@ -32,6 +32,7 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_calibrationProcess = new CalibrationProcess();
 
     connect(m_calibrationProcess,&CalibrationProcess::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
+    connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
     //сигнал с слайдера windowdepthmap
     //тут будут connect между виджетами
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку

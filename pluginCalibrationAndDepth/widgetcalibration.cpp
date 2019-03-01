@@ -397,5 +397,7 @@ void WidgetCalibration::on_rb_Hartley_clicked()
 
 void WidgetCalibration::on_b_calibration_clicked()
 {
+    m_str = "- Running stereo calibration ...";
+    emit sendStrToStatus(m_str);
     emit startCalibration(m_imagelist, m_boardSize, m_squareSize, m_displayCorners, m_useCalibrated, m_showRectified);
 }

@@ -135,8 +135,8 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
                 objectPoints[i].push_back(Point3f(k*_squareSize, j*_squareSize, 0));
     }
 
-    m_str = "- Running stereo calibration ...";
-    emit sendStrToStatus(m_str);
+//    m_str = "- Running stereo calibration ...";
+//    emit sendStrToStatus(m_str);
 
     Mat cameraMatrix[2], distCoeffs[2];
 
@@ -320,6 +320,10 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
                 emit signalForInputRight(img_input);
                 emit signalForOutputRight(imgR);
                 emit signalForTestDepthMap(imgL, imgR);
+//                Mat img_sendL, img_sendR;
+//                img_sendL = imgL;
+//                img_sendR = imgR;
+//                emit signalForTestDepthMap(img_sendL, img_sendR);
 //                QImage test_img;
 //                test_img = QImage(imgL.data,imgL.cols,imgL.rows,static_cast<int>(imgL.step),QImage::Format_RGB888);
 //                QImage test_img_2;
