@@ -38,7 +38,15 @@ public slots:
 
 signals:
     void sendStrToStatus(QString str);
-    void signalForTestDepthMap(cv::Mat img1, cv::Mat img2);
+    void signalForTestDepthMap(cv::Mat& img1, cv::Mat& img2);
+    void signalForOutput(cv::Mat img1);
+    void signalForOutputRight(cv::Mat img1);
+    void signalForInputLeft(cv::Mat img1);
+    void signalForInputRight(cv::Mat img1);
+
+    void startCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize, float squareSize,
+                          bool displayCorners, bool useCalibrated, bool showRectified);
+
 
 private slots:
     void on_b_Undistortion_clicked();
@@ -46,13 +54,15 @@ private slots:
     void on_rb_Bouguet_clicked();
     void on_rb_Hartley_clicked();
 
+    void on_b_calibration_clicked();
+
 private:
     Ui::WidgetCalibration *ui;
     bool m_displayCorners = false;
     bool m_useCalibrated = true;
     bool m_showRectified = true;
     cv::Size m_boardSize;
-    float m_squareSize; // поставить на 1.0f для нормальной работы
+    float m_squareSize = 1.0f; // поставить на 1.0f для нормальной работы
     std::vector<std::string> m_imagelist;
     QString m_str;
 };

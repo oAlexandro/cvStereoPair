@@ -29,19 +29,26 @@ void windowdepthmap2::OpenWindow()
 
 void windowdepthmap2::OpenPicture(cv::Mat _image)
 {
-  QImage m_testImage;
+    m_img1 = _image;
+    QImage m_testImage;
     if(_image.channels()== 3){
-      m_testImage = QImage(_image.data,_image.cols,_image.rows,static_cast<int>(_image.step),QImage::Format_RGB888);
-
+        m_testImage = QImage(_image.data,_image.cols,_image.rows,static_cast<int>(_image.step),QImage::Format_RGB888);
     }
     else{
         m_testImage = QImage(_image.data, _image.cols,_image.rows, static_cast<int>(_image.step),QImage::Format_Indexed8);
     }
-        if (!m_testImage.isNull()){
-            qDebug("in if");
-            m_outputImageLable->setAlignment(Qt::AlignCenter);
-            m_outputImageLable->setPixmap(QPixmap::fromImage(m_testImage).scaled(m_outputImageLable->size(),
-                                                                                      Qt::KeepAspectRatio, Qt::FastTransformation));
-        }
+    if (!m_testImage.isNull()){
+        m_outputImageLable->setAlignment(Qt::AlignCenter);
+        m_outputImageLable->setPixmap(QPixmap::fromImage(m_testImage).scaled(m_outputImageLable->size(),
+                                                                             Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    }
 }
 
+void windowdepthmap2::resizeEvent(QResizeEvent *event)
+{
+    if(event)
+    {
+        if(!(ui->outVideoImage_DepthMap->text()=="Image not found."))
+            OpenPicture(m_img1);
+    }
+}

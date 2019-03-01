@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1216</width>
-    <height>760</height>
+    <width>1187</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -256,17 +256,7 @@
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_2">
                   <item>
-                   <widget class="QLabel" name="outVideoImage_inputCamera1">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
+                   <layout class="QVBoxLayout" name="layout_leftInput"/>
                   </item>
                  </layout>
                 </widget>
@@ -278,17 +268,7 @@
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_5">
                   <item>
-                   <widget class="QLabel" name="outVideoImage_inputCamera2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
+                   <layout class="QVBoxLayout" name="layout_rightInput"/>
                   </item>
                  </layout>
                 </widget>
@@ -304,17 +284,7 @@
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_8">
                   <item>
-                   <widget class="QLabel" name="outVideoImage_outputCamera1">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
+                   <layout class="QVBoxLayout" name="layout_leftOutput"/>
                   </item>
                  </layout>
                 </widget>
@@ -326,17 +296,7 @@
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_7">
                   <item>
-                   <widget class="QLabel" name="outVideoImage_outputCamera2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
+                   <layout class="QVBoxLayout" name="layout_rightOutput"/>
                   </item>
                  </layout>
                 </widget>
@@ -370,7 +330,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1216</width>
+     <width>1187</width>
      <height>21</height>
     </rect>
    </property>

@@ -20,17 +20,21 @@ public:
     QLabel* m_outputImageLable = nullptr;
     explicit windowdepthmap2(QWidget *parent = nullptr);
     ~windowdepthmap2();
+    void resizeEvent(QResizeEvent *event);
 
 signals:
    void Number(int n);
+
 public slots:
    void OpenWindow();
    void OpenPicture(cv::Mat a);
+
 private slots:
    void on_horizontalSlider_actionTriggered(int action);
 
 private:
     Ui::windowdepthmap2 *ui;
+    cv::Mat m_img1;
 };
 
 #endif // WINDOWDEPTHMAP2_H

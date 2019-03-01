@@ -1,28 +1,25 @@
-#include "widgetcalibration.h"
-#include "ui_widgetcalibration.h"
+#include "calibrationprocess.h"
 #include <QDebug>
-using namespace cv;
+#include <QImage>
 using namespace std;
-
-WidgetCalibration::WidgetCalibration(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetCalibration)
+using namespace cv;
+CalibrationProcess::CalibrationProcess(QObject *parent) : QObject(parent)
 {
-    ui->setupUi(this);
-    //connect(ui->b_calibration,&QPushButton::clicked,this,&WidgetCalibration::stereoCalibration);
+    this->moveToThread(&m_thread);
+    m_thread.start();
 
-    m_boardSize.width = 9;
-    m_boardSize.height = 6;
 }
 
-WidgetCalibration::~WidgetCalibration()
+CalibrationProcess::~CalibrationProcess()
 {
-    delete ui;
+    m_thread.quit();
+    m_thread.wait();
 }
 
-void WidgetCalibration::stereoCalibration()
+void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imagelist, cv::Size _boardSize, float _squareSize,
+                                           bool _displayCorners, bool _useCalibrated, bool _showRectified)
 {
-    if( m_imagelist.size() % 2 != 0 )
+    if( _imagelist.size() % 2 != 0 )
     {
         m_str = "- Error: the image list contains odd (non-even) number of elements";
         emit sendStrToStatus(m_str);
@@ -36,7 +33,7 @@ void WidgetCalibration::stereoCalibration()
     vector<vector<Point3f> > objectPoints;
     Size imageSize;
 
-    int i, j, k, nimages = (int)m_imagelist.size()/2;
+    int i, j, k, nimages = (int)_imagelist.size()/2;
 
     imagePoints[0].resize(nimages);
     imagePoints[1].resize(nimages);
@@ -47,7 +44,7 @@ void WidgetCalibration::stereoCalibration()
 
         for( k = 0; k < 2; k++ )
         {
-            const string& filename = m_imagelist[i*2+k];
+            const string& filename = _imagelist[i*2+k];
 
             Mat img = imread(filename, 0);
 
@@ -73,7 +70,7 @@ void WidgetCalibration::stereoCalibration()
                     timg = img;
                 else
                     cv::resize(img, timg, Size(), scale, scale, INTER_LINEAR_EXACT);
-                found = findChessboardCorners(timg, m_boardSize, corners,
+                found = findChessboardCorners(timg, _boardSize, corners,
                                               CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
                 if( found )
                 {
@@ -86,12 +83,12 @@ void WidgetCalibration::stereoCalibration()
                 }
 
             }
-            if( m_displayCorners )
+            if( _displayCorners )
             {
                 //cout << filename << endl;    ранее было использовано, пока не удалять
                 Mat cimg, cimg1;
                 cvtColor(img, cimg, COLOR_GRAY2BGR);
-                drawChessboardCorners(cimg, m_boardSize, corners, found);
+                drawChessboardCorners(cimg, _boardSize, corners, found);
                 double sf = 640./MAX(img.rows, img.cols);
                 cv::resize(cimg, cimg1, Size(), sf, sf, INTER_LINEAR_EXACT);
                 imshow("corners", cimg1);
@@ -110,8 +107,8 @@ void WidgetCalibration::stereoCalibration()
         }
         if( k == 2 )
         {
-            goodImageList.push_back(m_imagelist[i*2]);
-            goodImageList.push_back(m_imagelist[i*2+1]);
+            goodImageList.push_back(_imagelist[i*2]);
+            goodImageList.push_back(_imagelist[i*2+1]);
             j++;
         }
     }
@@ -133,13 +130,13 @@ void WidgetCalibration::stereoCalibration()
 
     for( i = 0; i < nimages; i++ )
     {
-        for( j = 0; j < m_boardSize.height; j++ )
-            for( k = 0; k < m_boardSize.width; k++ )
-                objectPoints[i].push_back(Point3f(k*m_squareSize, j*m_squareSize, 0));
+        for( j = 0; j < _boardSize.height; j++ )
+            for( k = 0; k < _boardSize.width; k++ )
+                objectPoints[i].push_back(Point3f(k*_squareSize, j*_squareSize, 0));
     }
 
-    m_str = "- Running stereo calibration ...";
-    emit sendStrToStatus(m_str);
+//    m_str = "- Running stereo calibration ...";
+//    emit sendStrToStatus(m_str);
 
     Mat cameraMatrix[2], distCoeffs[2];
 
@@ -245,12 +242,12 @@ void WidgetCalibration::stereoCalibration()
     bool isVerticalStereo = fabs(P2.at<double>(1, 3)) > fabs(P2.at<double>(0, 3));
 
     // COMPUTE AND DISPLAY RECTIFICATION
-    if( !m_showRectified )
+    if( !_showRectified )
         return;
 
     Mat rmap[2][2];
     // IF BY CALIBRATED (BOUGUET'S METHOD)
-    if( m_useCalibrated )
+    if( _useCalibrated )
     {
         // we already computed everything
         //cout << "BOUGUET" << endl;
@@ -304,7 +301,7 @@ void WidgetCalibration::stereoCalibration()
     {
         for( k = 0; k < 2; k++ )
         {
-            const string& filename = m_imagelist[i*2+k];
+            const string& filename = _imagelist[i*2+k];
 
             Mat img_input = imread(filename, 0);
 
@@ -315,13 +312,6 @@ void WidgetCalibration::stereoCalibration()
             Mat canvasPart = !isVerticalStereo ? canvas(Rect(w*k, 0, w, h)) : canvas(Rect(0, h*k, w, h));
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
             if(k==0){
-<<<<<<< HEAD
-                imgL = canvasPart;
-              //  imshow("imgL", imgL);
-            } else {
-                imgR = canvasPart;
-                //imshow("imgR", imgR);
-=======
                 imgL = cimg;
                 emit signalForInputLeft(img_input);
                 emit signalForOutput(imgL);
@@ -329,13 +319,21 @@ void WidgetCalibration::stereoCalibration()
                 imgR = cimg;
                 emit signalForInputRight(img_input);
                 emit signalForOutputRight(imgR);
->>>>>>> upstream/master
                 emit signalForTestDepthMap(imgL, imgR);
+//                Mat img_sendL, img_sendR;
+//                img_sendL = imgL;
+//                img_sendR = imgR;
+//                emit signalForTestDepthMap(img_sendL, img_sendR);
+//                QImage test_img;
+//                test_img = QImage(imgL.data,imgL.cols,imgL.rows,static_cast<int>(imgL.step),QImage::Format_RGB888);
+//                QImage test_img_2;
+//                test_img = QImage(imgR.data,imgR.cols,imgR.rows,static_cast<int>(imgR.step),QImage::Format_RGB888);
+
 
 
             }
 
-            if( m_useCalibrated )
+            if( _useCalibrated )
             {
                 Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
                           cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
@@ -354,58 +352,4 @@ void WidgetCalibration::stereoCalibration()
         if( c == 27 || c == 'q' || c == 'Q' )
             break;
     }
-}
-
-void WidgetCalibration::getImagelist(const std::vector<string>& _imagelist)
-{
-    m_imagelist = _imagelist;
-}
-
-void WidgetCalibration::getBoardSize(Size _boardSize)
-{
-    m_boardSize = _boardSize;
-}
-
-void WidgetCalibration::getSquareSize(float _squareSize)
-{
-    // доделать
-}
-
-void WidgetCalibration::on_b_Undistortion_clicked()
-{
-    // продумать и доделать
-}
-
-void WidgetCalibration::on_cb_displayCorners_stateChanged(int arg1)
-{
-    if(arg1==2){
-        m_displayCorners = true;
-        m_str = "- display corners: on";
-        emit sendStrToStatus(m_str);
-    } else {
-        m_displayCorners = false;
-        m_str = "- display corners: off";
-        emit sendStrToStatus(m_str);
-    }
-}
-
-void WidgetCalibration::on_rb_Bouguet_clicked()
-{
-    m_useCalibrated = true;
-    m_str = "- Bouget: on";
-    emit sendStrToStatus(m_str);
-}
-
-void WidgetCalibration::on_rb_Hartley_clicked()
-{
-    m_useCalibrated = false;
-    m_str = "- Hartley: on";
-    emit sendStrToStatus(m_str);
-}
-
-void WidgetCalibration::on_b_calibration_clicked()
-{
-    m_str = "- Running stereo calibration ...";
-    emit sendStrToStatus(m_str);
-    emit startCalibration(m_imagelist, m_boardSize, m_squareSize, m_displayCorners, m_useCalibrated, m_showRectified);
 }
