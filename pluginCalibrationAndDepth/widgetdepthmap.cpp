@@ -1,6 +1,7 @@
 #include "widgetdepthmap.h"
 #include "ui_widgetdepthmap.h"
 #include <QtDebug>
+#include <opencv2/stereo.hpp>
 
 using namespace cv;
 using namespace std;
@@ -246,19 +247,20 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     //    sbm->setPreFilterSize(7);
     //    sbm->compute(g1,g2,disparity_left);
 
-//        Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,    //int minDisparity
-//                                                96,     //int numDisparities
-//                                                11,      //int SADWindowSize
-//                                                600,    //int P1 = 0
-//                                                2400,   //int P2 = 0
-//                                                20,     //int disp12MaxDiff = 0
-//                                                16,     //int preFilterCap = 0
-//                                                1,      //int uniquenessRatio = 0
-//                                                100,    //int speckleWindowSize = 0
-//                                                20,     //int speckleRange = 0
-//                                                true);  //bool fullDP = false
-        Ptr<StereoSGBM> sgbm = StereoSGBM::create(0, 96, 11);
-
+        Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,    //int minDisparity
+                                                96,     //int numDisparities
+                                                11,      //int SADWindowSize
+                                                100,    //int P1 = 0
+                                                2400,   //int P2 = 0
+                                                20,     //int disp12MaxDiff = 0
+                                                16,     //int preFilterCap = 0
+                                                1,      //int uniquenessRatio = 0
+                                                100,    //int speckleWindowSize = 0
+                                                20,     //int speckleRange = 0
+                                                true);  //bool fullDP = false
+        //Ptr<StereoSGBM> sgbm = StereoSGBM::create(0, 96, 11);
+        //Ptr< cv::stereo::StereoBinarySGBM > test_sgbm = cv::stereo::StereoBinarySGBM::create(0, 16, 7);
+        //test_sgbm->compute(g1,g2,disparity_left);
         sgbm->compute(g1, g2, disparity_left);
         normalize(disparity_left, disp8, 0, 255, CV_MINMAX, CV_8U);
     //    cv::namedWindow("Left",CV_WINDOW_FREERATIO);

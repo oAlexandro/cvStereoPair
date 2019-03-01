@@ -26,6 +26,7 @@ signals:
 public slots:
     void stereoCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize, float squareSize,
                            bool displayCorners, bool useCalibrated, bool showRectified);
+    //void saveImage();
 
 private:
     QThread m_thread;

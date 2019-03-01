@@ -296,7 +296,7 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
         h = cvRound(imageSize.height*sf);
         canvas.create(h*2, w, CV_8UC3);
     }
-    Mat imgR, imgL;
+    Mat imgR, imgL, outputImgR, outputImgL;
     for( i = 0; i < nimages; i++ )
     {
         for( k = 0; k < 2; k++ )
@@ -311,26 +311,18 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
             cvtColor(rimg, cimg, COLOR_GRAY2BGR);
             Mat canvasPart = !isVerticalStereo ? canvas(Rect(w*k, 0, w, h)) : canvas(Rect(0, h*k, w, h));
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
+
             if(k==0){
+                outputImgL = rimg;
                 imgL = cimg;
                 emit signalForInputLeft(img_input);
-                emit signalForOutput(imgL);
+                emit signalForOutput(outputImgL);
             } else {
+                outputImgR = rimg;
                 imgR = cimg;
                 emit signalForInputRight(img_input);
-                emit signalForOutputRight(imgR);
+                emit signalForOutputRight(outputImgR);
                 emit signalForTestDepthMap(imgL, imgR);
-//                Mat img_sendL, img_sendR;
-//                img_sendL = imgL;
-//                img_sendR = imgR;
-//                emit signalForTestDepthMap(img_sendL, img_sendR);
-//                QImage test_img;
-//                test_img = QImage(imgL.data,imgL.cols,imgL.rows,static_cast<int>(imgL.step),QImage::Format_RGB888);
-//                QImage test_img_2;
-//                test_img = QImage(imgR.data,imgR.cols,imgR.rows,static_cast<int>(imgR.step),QImage::Format_RGB888);
-
-
-
             }
 
             if( _useCalibrated )
