@@ -5,7 +5,9 @@
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
+#include <QTimer>
 
 namespace Ui {
 class Camera;
@@ -21,9 +23,30 @@ public:
 
 public slots:
     void onCamera();
+    void startTimer();
+    void stopTimer();
+    void manualFrame();
+    void getDir(QString);
+
+signals:
+    void startCamera();
+    void sendFrameToLeftInput(cv::Mat);
+    void sendFrameToRightInput(cv::Mat);
+    void sendFrameToLeftOutput(cv::Mat);
+    void sendFrameToRightOutput(cv::Mat);
 
 private:
     Ui::Camera *ui;
+    cv::VideoCapture m_capture;
+    cv::VideoCapture m_capture2;
+    int m_key;
+    bool m_close;
+    QTimer m_timer;
+    cv::Mat m_frame, m_frame2, m_dst, m_dst2;
+    QString m_dirName;
+    QString m_fileName, m_fileName2;
+    int m_counter = 1;
+
 };
 
 #endif // CAMERA_H

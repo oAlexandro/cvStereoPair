@@ -11,15 +11,14 @@ class WidgetFilemodeCalibration;
 class WidgetCalibrationMode;
 class WidgetCheckboardInformation;
 class WidgetStatus;
-
 class windowdepthmap2;
-
 class WidgetLeftInput;
 class WidgetLeftOutput;
 class WidgetRightOutput;
 class WidgetRightInput;
-
 class CalibrationProcess;
+class Camera;
+class WidgetRealTimeCalibration;
 
 class CAD_Interface : public QObject, PluginInterface
 {
@@ -41,6 +40,7 @@ public:
     virtual QWidget* showLeftOutputImage();
     virtual QWidget* showRightOutputImage();
     virtual QWidget* showRightInputImage();
+    virtual QWidget* showSettingsWidgetRealtimeCalibration();
 
 signals:
 
@@ -60,7 +60,8 @@ private:
     CalibrationProcess* m_calibrationProcess = nullptr;
     static QString m_pluginName;
     windowdepthmap2* m_WindowDepthMap =nullptr;
-
+    Camera* m_camera = nullptr;
+    WidgetRealTimeCalibration* m_widgetRealtimeCalibration = nullptr;
 };
 
 #endif // CAD_INTERFACE_H

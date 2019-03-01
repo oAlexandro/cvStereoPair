@@ -39,7 +39,8 @@ SOURCES += \
     widgetrightoutput.cpp \
     calibrationprocess.cpp \
     widgetrightinput.cpp \
-    camera.cpp
+    camera.cpp \
+    widgetrealtimecalibration.cpp
 
 HEADERS += \
     cad_interface.h \
@@ -55,7 +56,8 @@ HEADERS += \
     widgetrightoutput.h \
     calibrationprocess.h \
     widgetrightinput.h \
-    camera.h
+    camera.h \
+    widgetrealtimecalibration.h
 
 DISTFILES += pluginCalibrationAndDepth.json 
 
@@ -71,7 +73,8 @@ FORMS += \
     widgetleftoutput.ui \
     widgetrightoutput.ui \
     widgetrightinput.ui \
-    camera.ui
+    camera.ui \
+    widgetrealtimecalibration.ui
 
 
 

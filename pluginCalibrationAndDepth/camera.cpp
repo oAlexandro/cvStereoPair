@@ -1,7 +1,8 @@
 #include "camera.h"
 #include "ui_camera.h"
 #include <QPixmap>
-
+#include <QFile>
+#include <QDebug>
 using namespace cv;
 using std::cout; using std::cerr; using std::endl;
 
@@ -10,6 +11,8 @@ Camera::Camera(QWidget *parent) :
     ui(new Ui::Camera)
 {
     ui->setupUi(this);
+    //connect(this,SIGNAL(startCamera()),this,SLOT(onCamera()));
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(onCamera()));
 }
 
 Camera::~Camera()
@@ -19,62 +22,89 @@ Camera::~Camera()
 
 void Camera::onCamera()
 {
-    Mat frame, dst;
-    cout << "Opening camera..." << endl;
-    VideoCapture capture(0); // open the first camera
-    if (!capture.isOpened())
+    //m_close = false;
+
+    //QImage leftImage, rightImage;
+    //QPixmap leftPixmap, rightPixmap;
+
+    //VideoCapture capture(0); // open the first camera
+    if (!m_capture.isOpened() && m_capture2.isOpened())
     {
         cerr << "ERROR: Can't initialize camera capture" << endl;
     }
 
-    cout << "Frame width: " << capture.get(CAP_PROP_FRAME_WIDTH) << endl;
-    cout << "     height: " << capture.get(CAP_PROP_FRAME_HEIGHT) << endl;
-    cout << "Capturing FPS: " << capture.get(CAP_PROP_FPS) << endl;
-
-    cout << endl << "Press 'ESC' to quit, 'space' to toggle frame processing" << endl;
-    cout << endl << "Start grabbing..." << endl;
-
-    size_t nFrames = 0;
-    int64 t0 = cv::getTickCount();
-    int64 processingTime = 0;
-    for (;;)
-    {
-        capture >> dst; // read the next frame from camera
-        if (dst.empty())
+//    for (;;)
+//    {
+        m_capture >> m_dst; // read the next frame from camera
+        m_capture2 >> m_dst2;
+        if (!(m_dst.empty() && m_dst2.empty()))
         {
-            cerr << "ERROR: Can't grab camera frame." << endl;
-            break;
+            flip(m_dst, m_frame, 1);
+            flip(m_dst2, m_frame2, 1);
+            cv::cvtColor(m_frame, m_frame, cv::COLOR_BGR2RGB);
+            cv::cvtColor(m_frame2, m_frame2, cv::COLOR_BGR2RGB);
+            emit sendFrameToLeftInput(m_frame);
+            emit sendFrameToRightInput(m_frame2);
         }
-        flip(dst, frame, 1);
-        nFrames++;
-        if (nFrames % 10 == 0)
-        {
-            const int N = 10;
-            int64 t1 = cv::getTickCount();
-            cout << "Frames captured: " << cv::format("%5lld", (long long int)nFrames)
-                 << "    Average FPS: " << cv::format("%9.1f", (double)getTickFrequency() * N / (t1 - t0))
-                 << "    Average time per frame: " << cv::format("%9.2f ms", (double)(t1 - t0) * 1000.0f / (N * getTickFrequency()))
-                 << "    Average processing time: " << cv::format("%9.2f ms", (double)(processingTime) * 1000.0f / (N * getTickFrequency()))
-                 << std::endl;
-            t0 = t1;
-            processingTime = 0;
-        }
-        imshow("Frame", frame);
-        QImage leftImage;
-        QPixmap leftPixmap;
-        if(frame.channels() == 3) {
-                leftImage = QImage(frame.data,frame.cols,frame.rows,static_cast<int>(frame.step),QImage::Format_RGB888);
-            } else {
-                leftImage = QImage(frame.data, frame.cols,frame.rows, static_cast<int>(frame.step),QImage::Format_Indexed8);
-            }
-        leftPixmap = QPixmap::fromImage(leftImage);
-        ui->label_camera->setAlignment(Qt::AlignCenter);
-        ui->label_camera->setPixmap(leftPixmap.scaled(ui->label_camera->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
 
-        int key = waitKey(1);
-        if (key == 27/*ESC*/)
-            break;
 
-    }
-    std::cout << "Number of captured frames: " << nFrames << endl;
+//        if(frame.channels() == 3 && frame2.channels() == 3) {
+//                leftImage = QImage(frame.data,frame.cols,frame.rows,static_cast<int>(frame.step), QImage::Format_RGB888);
+//                rightImage = QImage(frame2.data,frame2.cols,frame2.rows,static_cast<int>(frame2.step),QImage::Format_RGB888);
+//            } else {
+//                leftImage = QImage(frame.data, frame.cols,frame.rows, static_cast<int>(frame.step),QImage::Format_Indexed8);
+//                rightImage = QImage(frame2.data, frame2.cols,frame2.rows, static_cast<int>(frame2.step),QImage::Format_Indexed8);
+//            }
+//        leftPixmap = QPixmap::fromImage(leftImage);
+//        rightPixmap = QPixmap::fromImage(rightImage);
+//        ui->label_camera1->setAlignment(Qt::AlignCenter);
+//        ui->label_camera1->setPixmap(leftPixmap.scaled(ui->label_camera1->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
+//        ui->label_camera2->setAlignment(Qt::AlignCenter);
+//        ui->label_camera2->setPixmap(rightPixmap.scaled(ui->label_camera2->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
+
+//        if(m_close){
+//            break;
+//        }
+//        waitKey(0);
+
+
+//    }
+}
+
+void Camera::startTimer()
+{
+    m_timer.start(35);
+    cout << "Opening camera..." << endl;
+    m_capture.open(0);
+    m_capture2.open(1);
+}
+
+void Camera::stopTimer()
+{
+    m_timer.stop();
+    //m_capture.release();
+    //m_capture2.release();
+}
+
+void Camera::manualFrame()
+{
+    qDebug("manualFrame");
+    emit sendFrameToLeftOutput(m_frame);
+    emit sendFrameToRightOutput(m_frame2);
+    m_fileName = m_dirName + '/' + "left" + QString::number(m_counter) + ".png";
+    m_fileName2 = m_dirName + '/' + "right" + QString::number(m_counter) + ".png";
+//    m_fileName = m_dirName + '/' + "left01.png";
+//    m_fileName2 = m_dirName + '/' + "right01.png";
+    m_counter++;
+    qDebug()<<m_fileName;
+    imwrite(m_fileName.toUtf8().constData(), m_frame);
+    imwrite(m_fileName2.toUtf8().constData(), m_frame2);
+
+
+}
+
+void Camera::getDir(QString _dirName)
+{
+    qDebug("getDir");
+    m_dirName = _dirName;
 }
