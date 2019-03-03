@@ -29,3 +29,13 @@ void WidgetRealTimeCalibration::on_b_saveDir_clicked()
         emit sendSaveDir(directoryName);
     }
 }
+
+//void WidgetRealTimeCalibration::on_b_auto_clicked()
+//{
+
+//}
+
+void WidgetRealTimeCalibration::on_b_auto_released()
+{
+    emit getAutoFrame();
+}

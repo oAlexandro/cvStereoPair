@@ -23,15 +23,18 @@ signals:
     void signalForOutputRight(cv::Mat img1);
     void signalForInputLeft(cv::Mat img1);
     void signalForInputRight(cv::Mat img1);
+    void sendForSaveFrames(cv::Mat, cv::Mat);
 public slots:
     void stereoCalibration(const std::vector<std::string>& imagelist, cv::Size boardSize, float squareSize,
                            bool displayCorners, bool useCalibrated, bool showRectified);
+    void getAutoFrameDetection(cv::Mat, cv::Mat);
     //void saveImage();
 
 private:
     QThread m_thread;
     QMutex m_mutex;
     QString m_str;
+    cv::Size m_boardSize;
 };
 
 #endif // CALIBRATIONPROCESS_H

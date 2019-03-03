@@ -7,7 +7,8 @@ CalibrationProcess::CalibrationProcess(QObject *parent) : QObject(parent)
 {
     this->moveToThread(&m_thread);
     m_thread.start();
-
+    m_boardSize.width = 9;
+    m_boardSize.height = 6;
 }
 
 CalibrationProcess::~CalibrationProcess()
@@ -34,11 +35,10 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
     Size imageSize;
 
     int i, j, k, nimages = (int)_imagelist.size()/2;
-
     imagePoints[0].resize(nimages);
     imagePoints[1].resize(nimages);
     vector<string> goodImageList;
-
+    Mat imgL_cor, imgR_cor;
     for( i = j = 0; i < nimages; i++ )
     {
 
@@ -72,6 +72,7 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
                     cv::resize(img, timg, Size(), scale, scale, INTER_LINEAR_EXACT);
                 found = findChessboardCorners(timg, _boardSize, corners,
                                               CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
+
                 if( found )
                 {
                     if( scale > 1 )
@@ -85,13 +86,20 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
             }
             if( _displayCorners )
             {
-                //cout << filename << endl;    ранее было использовано, пока не удалять
                 Mat cimg, cimg1;
                 cvtColor(img, cimg, COLOR_GRAY2BGR);
                 drawChessboardCorners(cimg, _boardSize, corners, found);
                 double sf = 640./MAX(img.rows, img.cols);
                 cv::resize(cimg, cimg1, Size(), sf, sf, INTER_LINEAR_EXACT);
-                imshow("corners", cimg1);
+                if(k==0){
+                    imgL_cor = cimg1;
+                } else {
+                    imgR_cor = cimg1;
+                    emit signalForOutput(imgL_cor);
+                    emit signalForOutputRight(imgR_cor);
+                }
+
+                //imshow("corners", cimg1);
                 char c = (char)waitKey(500);
                 if( c == 27 || c == 'q' || c == 'Q' ) //Allow ESC to quit
                     exit(-1);
@@ -345,3 +353,71 @@ void CalibrationProcess::stereoCalibration(const std::vector<std::string>& _imag
             break;
     }
 }
+
+void CalibrationProcess::getAutoFrameDetection(Mat _frame, Mat _frame2)
+{
+    if(!(_frame.empty() && _frame2.empty())){
+        Mat imgL_cor, imgR_cor;
+        bool found;
+        vector<vector<Point2f> > imagePoints[2];
+        imagePoints[0].resize(1);
+        imagePoints[1].resize(1);
+        int j = 0;
+        for(int k = 0; k < 2; k++ )
+        {
+            qDebug()<<"start k = "<<k;
+            qDebug("START PIZDA");
+            Mat img;
+            if(k == 0){
+                img = _frame;
+                cvtColor(img, img, COLOR_BGR2GRAY);
+            } else {
+                img = _frame2;
+                cvtColor(img, img, COLOR_BGR2GRAY);
+            }
+
+            if(img.empty())
+                break;
+            found = false;
+            vector<Point2f>& corners = imagePoints[k][j];
+
+            for( int scale = 1; scale <= 2; scale++ )
+            {
+                Mat timg;
+                if( scale == 1 )
+                    timg = img;
+                else
+                    cv::resize(img, timg, Size(), scale, scale, INTER_LINEAR_EXACT);
+                found = findChessboardCorners(timg, m_boardSize, corners,
+                                              CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
+
+                if( found )
+                {
+                    if( scale > 1 )
+                    {
+                        Mat cornersMat(corners);
+                        cornersMat *= 1./scale;
+                    }
+                    Mat cimg, cimg1;
+                    cvtColor(img, cimg, COLOR_GRAY2BGR);
+                    drawChessboardCorners(cimg, m_boardSize, corners, found);
+                    double sf = 640./MAX(img.rows, img.cols);
+                    cv::resize(cimg, cimg1, Size(), sf, sf, INTER_LINEAR_EXACT);
+                    if(k==0){
+                        imgL_cor = cimg1;
+                    } else {
+                        imgR_cor = cimg1;
+                        emit sendForSaveFrames(_frame, _frame2);
+                        emit signalForOutput(imgL_cor);
+                        emit signalForOutputRight(imgR_cor);
+                    }
+                    break;
+                }
+            }
+            if( !found ){
+                break;
+            }
+        }
+    }
+}
+

@@ -20,9 +20,14 @@ private slots:
 
     void on_b_saveDir_clicked();
 
+    //void on_b_auto_clicked();
+
+    void on_b_auto_released();
+
 signals:
     void getManualFrame();
     void sendSaveDir(QString);
+    void getAutoFrame();
 
 private:
     Ui::WidgetRealTimeCalibration *ui;

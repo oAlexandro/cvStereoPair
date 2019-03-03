@@ -6,6 +6,8 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include "opencv2/calib3d.hpp"
+#include "opencv2/imgcodecs.hpp"
 #include <iostream>
 #include <QTimer>
 
@@ -27,6 +29,8 @@ public slots:
     void stopTimer();
     void manualFrame();
     void getDir(QString);
+    void autoFrame();
+    void saveFrames(cv::Mat, cv::Mat);
 
 signals:
     void startCamera();
@@ -34,6 +38,8 @@ signals:
     void sendFrameToRightInput(cv::Mat);
     void sendFrameToLeftOutput(cv::Mat);
     void sendFrameToRightOutput(cv::Mat);
+    void sendStrToStatus(QString);
+    void sendFramesToDetection(cv::Mat, cv::Mat);
 
 private:
     Ui::Camera *ui;
@@ -46,7 +52,10 @@ private:
     QString m_dirName;
     QString m_fileName, m_fileName2;
     int m_counter = 1;
-
+    QString m_str;
+    bool m_autoFrame = false; // поменять на false
+    cv::Size m_boardSize;
+    size_t m_nFrames = 0;
 };
 
 #endif // CAMERA_H

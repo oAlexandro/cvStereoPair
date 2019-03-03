@@ -36,6 +36,7 @@ CAD_Interface::CAD_Interface(QObject *parent) :
 
     connect(m_calibrationProcess,&CalibrationProcess::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
+    connect(m_camera,&Camera::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
     //сигнал с слайдера windowdepthmap
     //тут будут connect между виджетами
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку
@@ -62,6 +63,12 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     connect(m_widgetRealtimeCalibration,&WidgetRealTimeCalibration::getManualFrame,m_camera,&Camera::manualFrame);
     connect(m_camera,&Camera::sendFrameToLeftOutput,m_widgetLeftOutput,&WidgetLeftOutput::showImage);
     connect(m_camera,&Camera::sendFrameToRightOutput,m_widgetRightOutput,&WidgetRightOutput::showImage);
+
+    connect(m_widgetRealtimeCalibration,&WidgetRealTimeCalibration::getAutoFrame,m_camera,&Camera::autoFrame);
+
+    connect(m_camera,&Camera::sendFramesToDetection,m_calibrationProcess,&CalibrationProcess::getAutoFrameDetection);
+    connect(m_calibrationProcess,&CalibrationProcess::sendForSaveFrames,m_camera,&Camera::saveFrames);
+
 }
 
 CAD_Interface::~CAD_Interface()
