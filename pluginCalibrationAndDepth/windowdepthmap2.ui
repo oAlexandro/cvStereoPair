@@ -73,6 +73,9 @@
            <layout class="QGridLayout" name="gridLayout">
             <item row="2" column="1">
              <widget class="QSlider" name="horizontalSlider_2">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -100,13 +103,20 @@
             </item>
             <item row="1" column="1">
              <widget class="QSlider" name="horizontalSlider">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QSpinBox" name="spinBox">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <spacer name="horizontalSpacer">
@@ -124,7 +134,7 @@
             <item row="0" column="1">
              <widget class="QPushButton" name="b_setImage">
               <property name="text">
-               <string>SaveImage</string>
+               <string>Send Options</string>
               </property>
              </widget>
             </item>
@@ -136,7 +146,11 @@
              </widget>
             </item>
             <item row="2" column="2">
-             <widget class="QSpinBox" name="spinBox_2"/>
+             <widget class="QSpinBox" name="spinBox_2">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

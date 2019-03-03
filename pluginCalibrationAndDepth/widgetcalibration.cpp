@@ -315,21 +315,13 @@ void WidgetCalibration::stereoCalibration()
             Mat canvasPart = !isVerticalStereo ? canvas(Rect(w*k, 0, w, h)) : canvas(Rect(0, h*k, w, h));
             cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
             if(k==0){
-<<<<<<< HEAD
                 imgL = canvasPart;
               //  imshow("imgL", imgL);
-            } else {
-                imgR = canvasPart;
-                //imshow("imgR", imgR);
-=======
-                imgL = cimg;
-                emit signalForInputLeft(img_input);
-                emit signalForOutput(imgL);
-            } else {
+            } else
+            {
                 imgR = cimg;
                 emit signalForInputRight(img_input);
                 emit signalForOutputRight(imgR);
->>>>>>> upstream/master
                 emit signalForTestDepthMap(imgL, imgR);
 
 

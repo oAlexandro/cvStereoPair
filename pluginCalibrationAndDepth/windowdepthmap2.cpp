@@ -1,5 +1,7 @@
 #include "windowdepthmap2.h"
 #include "ui_windowdepthmap2.h"
+#include"Windows.h"
+#include"QDebug"
 
 windowdepthmap2::windowdepthmap2(QWidget *parent) :
     QWidget(parent),
@@ -15,8 +17,15 @@ windowdepthmap2::windowdepthmap2(QWidget *parent) :
 }
 void windowdepthmap2::on_horizontalSlider_actionTriggered(int action)
 {
-   emit Number(action);
+  //  qDebug()<<action;
+    Sleep(500);
+
 }
+void windowdepthmap2::on_horizontalSlider_2_actionTriggered(int action)
+{
+   parametr_2=action;
+}
+
 windowdepthmap2::~windowdepthmap2()
 {
     delete ui;
@@ -51,4 +60,17 @@ void windowdepthmap2::resizeEvent(QResizeEvent *event)
         if(!(ui->outVideoImage_DepthMap->text()=="Image not found."))
             OpenPicture(m_img1);
     }
+}
+
+
+void windowdepthmap2::on_b_setImage_clicked()
+{
+    emit NewOptions();
+}
+
+void windowdepthmap2::on_spinBox_valueChanged(const QString &arg1)
+{
+
+     //emit Number(&arg1,parametr_2);
+    qDebug()<<arg1;
 }

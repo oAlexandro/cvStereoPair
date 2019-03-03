@@ -23,7 +23,8 @@ public:
     void resizeEvent(QResizeEvent *event);
 
 signals:
-   void Number(int n);
+   void Number(int& n_1,int n_2);
+   void NewOptions();
 
 public slots:
    void OpenWindow();
@@ -32,7 +33,14 @@ public slots:
 private slots:
    void on_horizontalSlider_actionTriggered(int action);
 
+   void on_horizontalSlider_2_actionTriggered(int action);
+
+   void on_b_setImage_clicked();
+
+   void on_spinBox_valueChanged(const QString &arg1);
+
 private:
+    int parametr_2;
     Ui::windowdepthmap2 *ui;
     cv::Mat m_img1;
 };

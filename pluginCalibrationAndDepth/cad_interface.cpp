@@ -37,10 +37,11 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     //тут будут connect между виджетами
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку
 
-    connect(m_calibrationProcess,&CalibrationProcess::signalForTestDepthMap,m_widgetDepthMap,&WidgetDepthMap::depthMapping); //test
+    connect(m_calibrationProcess,&CalibrationProcess::signalForTestDepthMap,m_widgetDepthMap,&WidgetDepthMap::Image); //test
     connect(m_widgetDepthMap,&WidgetDepthMap::sendStartSignal,m_WindowDepthMap,&windowdepthmap2::OpenWindow);
     connect(m_widgetDepthMap,&WidgetDepthMap::picture,m_WindowDepthMap,&windowdepthmap2::OpenPicture);
-
+    connect(m_WindowDepthMap,&windowdepthmap2::Number,m_widgetDepthMap,&WidgetDepthMap::depthMapOptions);
+    connect(m_WindowDepthMap,&windowdepthmap2::NewOptions,m_widgetDepthMap,&WidgetDepthMap::depthMapping);
     //connect(m_widgetCalibration,&WidgetCalibration::signalForTestDepthMap,m_widgetDepthMap,&WidgetDepthMap::depthMapping); //test
     connect(m_calibrationProcess,&CalibrationProcess::signalForInputLeft,m_widgetLeftInput,&WidgetLeftInput::showImage);
     connect(m_calibrationProcess,&CalibrationProcess::signalForOutput,m_widgetLeftOutput,&WidgetLeftOutput::showImage);

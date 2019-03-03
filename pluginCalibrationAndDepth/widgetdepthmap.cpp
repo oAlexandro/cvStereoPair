@@ -18,6 +18,8 @@ WidgetDepthMap::~WidgetDepthMap()
 }
 
 
+
+
 /*void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
 //{
 //    //cv::Mat img1 = _img1;
@@ -222,19 +224,20 @@ WidgetDepthMap::~WidgetDepthMap()
 */
 
 // Второй способ DM
-void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
+void WidgetDepthMap::depthMapping()
 {
+   // qDebug()<<("Parametr_1")<<par_1;
+    //qDebug()<<("Parametr_2")<<par_1;
 
     //    Mat im_left=imread("left01.jpg");
     //    Mat im_right=imread("right01.jpg");
-        Mat im_left=img1;
-        Mat im_right=img2;
-        cv::Size imagesize = im_left.size();
+
+        cv::Size imagesize = image_left.size();
         cv::Mat disparity_left=cv::Mat(imagesize.height,imagesize.width,CV_16S);
         cv::Mat disparity_right=cv::Mat(imagesize.height,imagesize.width,CV_16S);
         cv::Mat g1,g2,disp,disp8;
-        cv::cvtColor(im_left,g1,cv::COLOR_BGR2GRAY);
-        cv::cvtColor(im_right,g2,cv::COLOR_BGR2GRAY);
+        cv::cvtColor(image_left,g1,cv::COLOR_BGR2GRAY);
+        cv::cvtColor(image_right,g2,cv::COLOR_BGR2GRAY);
     //    cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
     //    sbm->setDisp12MaxDiff(1);
     //    sbm->setSpeckleRange(8);
@@ -246,18 +249,18 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     //    sbm->setPreFilterSize(7);
     //    sbm->compute(g1,g2,disparity_left);
 
-//        Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,    //int minDisparity
-//                                                96,     //int numDisparities
-//                                                11,      //int SADWindowSize
-//                                                600,    //int P1 = 0
-//                                                2400,   //int P2 = 0
-//                                                20,     //int disp12MaxDiff = 0
-//                                                16,     //int preFilterCap = 0
-//                                                1,      //int uniquenessRatio = 0
-//                                                100,    //int speckleWindowSize = 0
-//                                                20,     //int speckleRange = 0
-//                                                true);  //bool fullDP = false
-        Ptr<StereoSGBM> sgbm = StereoSGBM::create(0, 96, 11);
+        Ptr<StereoSGBM> sgbm = StereoSGBM::create(par_1,    //int minDisparity
+                                                96,     //int numDisparities
+                                                11,      //int SADWindowSize
+                                                par_2,    //int P1 = 0
+                                                2400,   //int P2 = 0
+                                                20,     //int disp12MaxDiff = 0
+                                                16,     //int preFilterCap = 0
+                                                1,      //int uniquenessRatio = 0
+                                                100,    //int speckleWindowSize = 0
+                                                20,     //int speckleRange = 0
+                                                true);  //bool fullDP = false
+  //      Ptr<StereoSGBM> sgbm = StereoSGBM::create(par_1, 96, 11);
 
         sgbm->compute(g1, g2, disparity_left);
         normalize(disparity_left, disp8, 0, 255, CV_MINMAX, CV_8U);
@@ -268,6 +271,7 @@ void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
     //    cv::namedWindow("Depth map",CV_WINDOW_FREERATIO);
         //cv::imshow("Depth map", disp8);
         //cv::waitKey(0);
+        qDebug("Готовая фотография");
         emit picture(disp8);
 }
 
@@ -287,9 +291,14 @@ void WidgetDepthMap::saveXYZ(const char *filename, const Mat &mat)
     fclose(fp);
 }
 
-void WidgetDepthMap::depthMapOptions(int number)
+void WidgetDepthMap::depthMapOptions(int parametr_1,int parametr_2)
 {
-    m_number=number;
+  //  qDebug()<<parametr_1;
+    par_1=parametr_1;
+    //qDebug()<<par_1;
+
+    par_2=parametr_2;
+
 }
 
 
@@ -297,11 +306,17 @@ void WidgetDepthMap::on_b_startDepthMap_clicked()
 {
 
     emit sendStartSignal();
+
 }
 
 void WidgetDepthMap::on_b_updateSet_clicked()
 {
 
+}
+void WidgetDepthMap::Image(Mat img_left, Mat img_right)
+{
+    image_left=img_left;
+    image_right=img_right;
 }
 
 void WidgetDepthMap::on_b_settingsDepthMap_clicked()

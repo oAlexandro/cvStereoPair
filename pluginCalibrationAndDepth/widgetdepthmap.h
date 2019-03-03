@@ -35,10 +35,10 @@ signals:
     void sendImageToWindow(cv::Mat resDepthMap);
 
 public slots:
-    void depthMapping(cv::Mat img1, cv::Mat img2);
-
+    void depthMapping();
+    void Image(cv::Mat img_left,cv::Mat img_right);
     void saveXYZ(const char* filename, const cv::Mat& mat);
-    void depthMapOptions(int number);
+    void depthMapOptions(int number,int number_2);
 
 
 
@@ -50,7 +50,8 @@ private slots:
 private:
     Ui::WidgetDepthMap *ui;
     cv::Mat m_sendImg;
-    int m_number;
+    cv::Mat image_left,image_right;
+    int par_1,par_2;
 };
 
 #endif // WIDGETDEPTHMAP_H
