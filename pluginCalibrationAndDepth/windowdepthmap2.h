@@ -23,7 +23,12 @@ public:
     void resizeEvent(QResizeEvent *event);
 
 signals:
-   void Number(int& n_1,int n_2);
+   void Number(int& n_1,int& n_2,
+               int& n_3,int& n_4,
+               int& n_5,int& n_6,
+               int& n_7,int& n_8,
+               int& n_9,int& n_10,
+               bool& insinuation);
    void NewOptions();
 
 public slots:
@@ -31,16 +36,28 @@ public slots:
    void OpenPicture(cv::Mat a);
 
 private slots:
-   void on_horizontalSlider_actionTriggered(int action);
 
-   void on_horizontalSlider_2_actionTriggered(int action);
 
    void on_b_setImage_clicked();
-
-   void on_spinBox_valueChanged(const QString &arg1);
+   void on_spinBox_valueChanged(int arg1);
+   void on_spinBox_2_valueChanged(int arg1);
+   void on_spinBox_3_valueChanged(float arg1);
+   void on_spinBox_4_valueChanged(int arg1);
+   void on_spinBox_5_valueChanged(int arg1);
+   void on_spinBox_6_valueChanged(int arg1);
+   void on_spinBox_7_valueChanged(int arg1);
+   void on_spinBox_8_valueChanged(int arg1);
+   void on_spinBox_9_valueChanged(int arg1);
+   void on_spinBox_10_valueChanged(int arg1);
+   void on_radioButton_clicked(bool checked);
+   void on_pushButton_clicked();
 
 private:
-    int parametr_2;
+    int parametr_1,parametr_2,parametr_3,
+        parametr_4,parametr_5,parametr_6,
+        parametr_7,parametr_8,parametr_9,
+        parametr_10;
+   bool paramet=false;
     Ui::windowdepthmap2 *ui;
     cv::Mat m_img1;
 };

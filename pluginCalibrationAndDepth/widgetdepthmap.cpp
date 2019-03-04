@@ -249,17 +249,32 @@ void WidgetDepthMap::depthMapping()
     //    sbm->setPreFilterSize(7);
     //    sbm->compute(g1,g2,disparity_left);
 
-        Ptr<StereoSGBM> sgbm = StereoSGBM::create(par_1,    //int minDisparity
-                                                96,     //int numDisparities
-                                                11,      //int SADWindowSize
-                                                par_2,    //int P1 = 0
-                                                2400,   //int P2 = 0
-                                                20,     //int disp12MaxDiff = 0
-                                                16,     //int preFilterCap = 0
-                                                1,      //int uniquenessRatio = 0
-                                                100,    //int speckleWindowSize = 0
-                                                20,     //int speckleRange = 0
-                                                true);  //bool fullDP = false
+        Ptr<StereoSGBM> sgbm = StereoSGBM::create(parametr_1,    //int minDisparity
+                                                parametr_2,     //int numDisparities
+                                                parametr_3,      //int SADWindowSize
+                                                parametr_4,    //int P1 = 0
+                                                parametr_5,   //int P2 = 0
+                                                parametr_6,     //int disp12MaxDiff = 0
+                                                parametr_7,     //int preFilterCap = 0
+                                                parametr_8,      //int uniquenessRatio = 0
+                                                parametr_9,    //int speckleWindowSize = 0
+                                                parametr_10,     //int speckleRange = 0
+                                                paramet);  //bool fullDP = false
+
+
+//        Ptr<StereoSGBM> sgbm = StereoSGBM::create(parametr_1,    //int minDisparity
+//                                                parametr_1,     //int numDisparities
+//                                                11,      //int SADWindowSize
+//                                                parametr_2,    //int P1 = 0
+//                                                2400,   //int P2 = 0
+//                                                20,     //int disp12MaxDiff = 0
+//                                                16,     //int preFilterCap = 0
+//                                                1,      //int uniquenessRatio = 0
+//                                                100,    //int speckleWindowSize = 0
+//                                                20,     //int speckleRange = 0
+//                                                true);  //bool fullDP = false
+
+
   //      Ptr<StereoSGBM> sgbm = StereoSGBM::create(par_1, 96, 11);
 
         sgbm->compute(g1, g2, disparity_left);
@@ -275,12 +290,13 @@ void WidgetDepthMap::depthMapping()
         emit picture(disp8);
 }
 
-void WidgetDepthMap::saveXYZ(const char *filename, const Mat &mat)
+void WidgetDepthMap::saveXYZ(const char *   filename, const Mat &mat)
 {
     const double max_z = 1.0e4;
     FILE* fp = fopen(filename, "wt");
     for(int y = 0; y < mat.rows; y++)
     {
+        qDebug("Файл открыт");
         for(int x = 0; x < mat.cols; x++)
         {
             Vec3f point = mat.at<Vec3f>(y, x);
@@ -291,15 +307,22 @@ void WidgetDepthMap::saveXYZ(const char *filename, const Mat &mat)
     fclose(fp);
 }
 
-void WidgetDepthMap::depthMapOptions(int parametr_1,int parametr_2)
+void WidgetDepthMap::depthMapOptions(int &number_1, int &number_2, int &number_3, int &number_4, int &number_5, int &number_6, int &number_7, int &number_8, int &number_9, int &number_10, bool &insinuation)
 {
-  //  qDebug()<<parametr_1;
-    par_1=parametr_1;
-    //qDebug()<<par_1;
-
-    par_2=parametr_2;
-
+    parametr_1=number_1;
+    parametr_2=number_2;
+    parametr_3=number_3;
+    parametr_4=number_4;
+    parametr_5=number_5;
+    parametr_6=number_6;
+    parametr_7=number_7;
+    parametr_8=number_8;
+    parametr_9=number_9;
+    parametr_10=number_10;
+    paramet=insinuation;
 }
+
+
 
 
 void WidgetDepthMap::on_b_startDepthMap_clicked()

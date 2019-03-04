@@ -38,7 +38,10 @@ public slots:
     void depthMapping();
     void Image(cv::Mat img_left,cv::Mat img_right);
     void saveXYZ(const char* filename, const cv::Mat& mat);
-    void depthMapOptions(int number,int number_2);
+    void depthMapOptions(int &number_1,int &number_2,int &number_3,
+                         int &number_4,int &number_5,int &number_6,
+                         int &number_7,int &number_8,int &number_9,
+                         int &number_10,bool &insinuation);
 
 
 
@@ -51,7 +54,11 @@ private:
     Ui::WidgetDepthMap *ui;
     cv::Mat m_sendImg;
     cv::Mat image_left,image_right;
-    int par_1,par_2;
+    int parametr_1,parametr_2,parametr_3,
+        parametr_4,parametr_5,parametr_6,
+        parametr_7,parametr_8,parametr_9,
+        parametr_10;
+   bool paramet;
 };
 
 #endif // WIDGETDEPTHMAP_H

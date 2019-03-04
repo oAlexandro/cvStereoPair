@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>736</width>
-    <height>686</height>
+    <width>895</width>
+    <height>892</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,10 +71,189 @@
          <layout class="QHBoxLayout" name="rightBottomPart">
           <item>
            <layout class="QGridLayout" name="gridLayout">
+            <item row="7" column="1">
+             <widget class="QSlider" name="horizontalSlider_7">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QSpinBox" name="spinBox">
+              <property name="minimum">
+               <number>-100</number>
+              </property>
+              <property name="maximum">
+               <number>10</number>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>speckleWindowSize</string>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="1">
              <widget class="QSlider" name="horizontalSlider_2">
               <property name="maximum">
                <number>1000</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QSlider" name="horizontalSlider_10">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="2">
+             <widget class="QSpinBox" name="spinBox_7">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="8" column="2">
+             <widget class="QSpinBox" name="spinBox_8">
+              <property name="maximum">
+               <number>15</number>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>numDisparities</string>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QRadioButton" name="radioButton">
+              <property name="text">
+               <string>fullDP</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSlider" name="horizontalSlider_4">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>speckleRange</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="2">
+             <widget class="QSpinBox" name="spinBox_9">
+              <property name="minimum">
+               <number>50</number>
+              </property>
+              <property name="maximum">
+               <number>200</number>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QSlider" name="horizontalSlider_9">
+              <property name="minimum">
+               <number>50</number>
+              </property>
+              <property name="maximum">
+               <number>200</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>disp12MaxDiff</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QSpinBox" name="spinBox_2">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QSpinBox" name="spinBox_6">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>P2</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QSpinBox" name="spinBox_4">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QSlider" name="horizontalSlider_3">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>5</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSlider" name="horizontalSlider">
+              <property name="minimum">
+               <number>-100</number>
+              </property>
+              <property name="maximum">
+               <number>10</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -94,42 +273,60 @@
               </property>
              </spacer>
             </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>preFilterCap</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>uniquenessRatio</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>SADWindowSize</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QSlider" name="horizontalSlider_6">
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>TextLabel</string>
+               <string>minDisparity</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QSlider" name="horizontalSlider">
+            <item row="3" column="2">
+             <widget class="QSpinBox" name="spinBox_3">
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="maximum">
-               <number>1000</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <number>5</number>
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QSpinBox" name="spinBox">
+            <item row="5" column="2">
+             <widget class="QSpinBox" name="spinBox_5">
               <property name="maximum">
-               <number>1000</number>
+               <number>2500</number>
               </property>
              </widget>
-            </item>
-            <item row="0" column="0">
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
             <item row="0" column="1">
              <widget class="QPushButton" name="b_setImage">
@@ -138,17 +335,44 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label">
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>TextLabel</string>
+               <string>P1</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QSpinBox" name="spinBox_2">
+            <item row="10" column="2">
+             <widget class="QSpinBox" name="spinBox_10">
               <property name="maximum">
                <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QSlider" name="horizontalSlider_8">
+              <property name="maximum">
+               <number>15</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QSlider" name="horizontalSlider_5">
+              <property name="maximum">
+               <number>2500</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="0">
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Default</string>
               </property>
              </widget>
             </item>
