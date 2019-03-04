@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout* vbox_leftOutput = new QVBoxLayout();
     QVBoxLayout* vbox_rightOutput = new QVBoxLayout();
     QVBoxLayout* vbox_rightInput = new QVBoxLayout();
-
+    QVBoxLayout* vbox_realtimeCalibration = new QVBoxLayout();
     if(m_interface){
         vbox_calibControl->addWidget(m_interface->showSettingsWidgetCalibration());
         vbox_filemodeCalib->addWidget(m_interface->showSettingsWidgetFilemodeCalibration());
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
         vbox_leftOutput->addWidget(m_interface->showLeftOutputImage());
         vbox_rightOutput->addWidget(m_interface->showRightOutputImage());
         vbox_rightInput->addWidget(m_interface->showRightInputImage());
-//        myVBox->addWidget(m_interface->showSettingsWidgetStart());
+        vbox_realtimeCalibration->addWidget(m_interface->showSettingsWidgetRealtimeCalibration());
     }
     ui->layout_calibControl->addLayout(vbox_calibControl);
     ui->layout_filemodeCalib->addLayout(vbox_filemodeCalib);
@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->layout_leftOutput->addLayout(vbox_leftOutput);
     ui->layout_rightOutput->addLayout(vbox_rightOutput);
     ui->layout_rightInput->addLayout(vbox_rightInput);
+    ui->layout_realtimeCalib->addLayout(vbox_realtimeCalibration);
 
 }
 

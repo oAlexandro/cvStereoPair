@@ -11,7 +11,8 @@
 #include "widgetrightoutput.h"
 #include "widgetrightinput.h"
 #include "calibrationprocess.h"
-
+#include "camera.h"
+#include "widgetrealtimecalibration.h"
 
 QString CAD_Interface::m_pluginName = "pluginCalibrationAndDepth";
 
@@ -30,9 +31,12 @@ CAD_Interface::CAD_Interface(QObject *parent) :
     m_widgetRightOutput = new WidgetRightOutput();
     m_widgetRightInput = new WidgetRightInput();
     m_calibrationProcess = new CalibrationProcess();
+    m_camera = new Camera();
+    m_widgetRealtimeCalibration = new WidgetRealTimeCalibration();
 
     connect(m_calibrationProcess,&CalibrationProcess::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);//добавление нового оповещения в статус
     connect(m_widgetCalibration,&WidgetCalibration::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
+    connect(m_camera,&Camera::sendStrToStatus,m_widgetStatus,&WidgetStatus::getText);
     //сигнал с слайдера windowdepthmap
     //тут будут connect между виджетами
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorString,m_widgetCalibration,&WidgetCalibration::getImagelist); // отправка изображений на обработку
@@ -51,6 +55,21 @@ CAD_Interface::CAD_Interface(QObject *parent) :
 
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorToStartLeft,m_widgetLeftInput,&WidgetLeftInput::showImage);
     connect(m_widgetFilemodeCalibration,&WidgetFilemodeCalibration::sendVectorToStartRight,m_widgetRightInput,&WidgetRightInput::showImage);
+
+    connect(m_widgetCalibrationMode,&WidgetCalibrationMode::stopCamera,m_camera,&Camera::stopTimer);
+    connect(m_widgetCalibrationMode,&WidgetCalibrationMode::onRealtimeMode,m_camera,&Camera::startTimer);
+    connect(m_camera,&Camera::sendFrameToLeftInput,m_widgetLeftInput,&WidgetLeftInput::showImage);
+    connect(m_camera,&Camera::sendFrameToRightInput,m_widgetRightInput,&WidgetRightInput::showImage);
+    connect(m_widgetRealtimeCalibration,&WidgetRealTimeCalibration::sendSaveDir,m_camera,&Camera::getDir);
+    connect(m_widgetRealtimeCalibration,&WidgetRealTimeCalibration::getManualFrame,m_camera,&Camera::manualFrame);
+    connect(m_camera,&Camera::sendFrameToLeftOutput,m_widgetLeftOutput,&WidgetLeftOutput::showImage);
+    connect(m_camera,&Camera::sendFrameToRightOutput,m_widgetRightOutput,&WidgetRightOutput::showImage);
+
+    connect(m_widgetRealtimeCalibration,&WidgetRealTimeCalibration::getAutoFrame,m_camera,&Camera::autoFrame);
+
+    connect(m_camera,&Camera::sendFramesToDetection,m_calibrationProcess,&CalibrationProcess::getAutoFrameDetection);
+    connect(m_calibrationProcess,&CalibrationProcess::sendForSaveFrames,m_camera,&Camera::saveFrames);
+
 }
 
 CAD_Interface::~CAD_Interface()
@@ -66,6 +85,8 @@ CAD_Interface::~CAD_Interface()
     delete m_widgetLeftOutput;
     delete m_widgetRightOutput;
     delete m_widgetRightInput;
+    delete m_camera;
+    delete m_widgetRealtimeCalibration;
 }
 
 const QString &CAD_Interface::pluginName() const
@@ -121,4 +142,9 @@ QWidget *CAD_Interface::showRightOutputImage()
 QWidget *CAD_Interface::showRightInputImage()
 {
     return m_widgetRightInput;
+}
+
+QWidget *CAD_Interface::showSettingsWidgetRealtimeCalibration()
+{
+    return m_widgetRealtimeCalibration;
 }
