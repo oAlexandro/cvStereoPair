@@ -15,6 +15,7 @@ WidgetRightOutput::~WidgetRightOutput()
 
 void WidgetRightOutput::showImage(cv::Mat img1)
 {
+    qDebug("Все пискам кисс, все кискам пис");
     m_img1 = img1;
     QImage leftInput;
     QPixmap leftPixmap;

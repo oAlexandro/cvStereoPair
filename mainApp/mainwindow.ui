@@ -54,11 +54,7 @@
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_10">
                   <item>
-                   <widget class="QLabel" name="label">
-                    <property name="text">
-                     <string>In development</string>
-                    </property>
-                   </widget>
+                   <layout class="QHBoxLayout" name="layout_realtimeCalib"/>
                   </item>
                  </layout>
                 </widget>
