@@ -2,8 +2,26 @@
 #include "ui_widgetdepthmap.h"
 #include <QtDebug>
 
+#include "opencv2/calib3d.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/core/utility.hpp"
+#include "opencv2/ximgproc.hpp"
+#include <iostream>
+#include <string>
+
+using namespace cv;
+using namespace cv::ximgproc;
+using namespace std;
+
 using namespace cv;
 using namespace std;
+
+int main(int argc, char** argv);
+Rect computeROI(Size2i src_sz, Ptr<StereoMatcher> matcher_instance);
+
+
 
 WidgetDepthMap::WidgetDepthMap(QWidget *parent) :
     QWidget(parent),
@@ -16,8 +34,6 @@ WidgetDepthMap::~WidgetDepthMap()
 {
     delete ui;
 }
-
-
 
 
 /*void WidgetDepthMap::depthMapping(cv::Mat img1, cv::Mat img2)
@@ -238,6 +254,8 @@ void WidgetDepthMap::depthMapping()
         cv::Mat g1,g2,disp,disp8;
         cv::cvtColor(image_left,g1,cv::COLOR_BGR2GRAY);
         cv::cvtColor(image_right,g2,cv::COLOR_BGR2GRAY);
+
+
     //    cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
     //    sbm->setDisp12MaxDiff(1);
     //    sbm->setSpeckleRange(8);
@@ -288,7 +306,80 @@ void WidgetDepthMap::depthMapping()
         //cv::waitKey(0);
         qDebug("Готовая фотография");
         emit picture(disp8);
+
+       //  int max_disp = 160;
+        // int wsize;
+
+               Mat left_for_matcher, right_for_matcher;
+               Mat left_disp,right_disp;
+               left_disp=disparity_left;
+               right_disp=disparity_right;
+               Mat filtered_disp,solved_disp,solved_filtered_disp;
+               double matching_time, filtering_time;
+               left_for_matcher=image_left;
+               right_for_matcher=image_right;
+               Ptr<DisparityWLSFilter> wls_filter;
+
+
+
+
+              //  Ptr <StereoBM> left_matcher = StereoBM :: create (160, -1); //max_disp, wsize
+              //  sgbm = StereoSGBM :: create (160, -1); //max_disp, wsize
+                wls_filter = createDisparityWLSFilter (sgbm);
+                Ptr <StereoMatcher> right_matcher = createRightMatcher (sgbm);
+
+
+
+
+                matching_time = (double)getTickCount();
+                sgbm-> compute(left_for_matcher, right_for_matcher,left_disp);
+                right_matcher->compute(right_for_matcher,left_for_matcher, right_disp);
+                matching_time = ((double)getTickCount() - matching_time)/getTickFrequency();
+
+
+
+
+                    //Фильтрация
+                        wls_filter->setLambda(8000.0);
+                        qDebug("noooooo");
+                        wls_filter->setSigmaColor(1.5);
+                        filtering_time = (double)getTickCount();
+                        wls_filter->filter(left_disp,image_left,filtered_disp,right_disp);
+                        filtering_time = ((double)getTickCount() - filtering_time)/getTickFrequency();
+
+
+
+                        Mat raw_disp_vis;
+
+                               getDisparityVis(left_disp,raw_disp_vis,1.0);
+                               namedWindow("raw disparity", WINDOW_AUTOSIZE);
+                               imshow("raw disparity", raw_disp_vis);
+                               Mat filtered_disp_vis;
+                               getDisparityVis(filtered_disp,filtered_disp_vis,1.0);
+                               namedWindow("filtered disparity", WINDOW_AUTOSIZE);
+                               imshow("filtered disparity", filtered_disp_vis);
+                               if(!solved_disp.empty())
+                               {
+                                   Mat solved_disp_vis;
+                                   getDisparityVis(solved_disp,solved_disp_vis,1.0);
+                                   namedWindow("solved disparity", WINDOW_AUTOSIZE);
+                                   imshow("solved disparity", solved_disp_vis);
+                                   Mat solved_filtered_disp_vis;
+                                   getDisparityVis(solved_filtered_disp,solved_filtered_disp_vis,1.0);
+                                   namedWindow("solved wls disparity", WINDOW_AUTOSIZE);
+                                   imshow("solved wls disparity", solved_filtered_disp_vis);
+                               }
+                               while(1)
+                               {
+                                   char key = (char)waitKey();
+                                   if( key == 27 || key == 'q' || key == 'Q') // 'ESC'
+                                   {}
+                                 }
+
+
+
 }
+
 
 void WidgetDepthMap::saveXYZ(const char *   filename, const Mat &mat)
 {
@@ -346,3 +437,37 @@ void WidgetDepthMap::on_b_settingsDepthMap_clicked()
 {
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
